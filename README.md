@@ -8,6 +8,11 @@ This repository is in early setup. The first notebook currently in the project i
 
 - `notebooks/01_word_lists_combine.ipynb`
 
+## Docs
+
+- Agent context and dataset usage notes: `docs/context.md`
+- Full source list and dataset build formulas: `docs/dataset-resources.md`
+
 ## Project Setup
 
 1. Create and activate a virtual environment:
