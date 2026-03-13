@@ -15,8 +15,8 @@ This file is a working memory reference for agents operating on this repo.
 ## Current counts (latest notebook run)
 - english_5_strict.txt: 5811
 - english_5.txt: 11155
-- english_4_strict.txt: 1353
-- english_4.txt: 3382
+- english_4_strict.txt: 3176
+- english_4.txt: 5733
 
 ## Practical usage policy
 - Start/target validation:
@@ -25,6 +25,9 @@ This file is a working memory reference for agents operating on this repo.
 - Step expansion during solve:
   - 5-letter tasks -> english_5.txt
   - 4-letter tasks -> english_4.txt
+- 4-letter construction detail:
+  - strict: words appearing in at least 2 curated 4-letter sources
+  - non-strict: union of curated 4-letter sources
 - Final path check:
   - Every token in the produced path must exist in the non-strict set used for expansion.
   - Optionally report whether each token is also in the strict set (for analysis).

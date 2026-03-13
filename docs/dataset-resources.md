@@ -24,6 +24,9 @@ This document lists all sources used to build the current Word Ladder datasets.
 - 4-letter processed list (raspberrypisig gist)
   - https://gist.githubusercontent.com/raspberrypisig/cc18b0f4fbc0c79ffd667d06adc0a190/raw/4-letter-words-processed-new.txt
   - local: data/raw/rpi_4letter_words.txt
+- 4-letter Scrabble list (rmmh/fourletterword)
+  - https://raw.githubusercontent.com/rmmh/fourletterword/master/list.txt
+  - local: data/raw/rmmh_4letter_words.txt
 
 ## Normalization
 For every source line:
@@ -41,12 +44,13 @@ Let:
 - D4, DBL4, K4, W34 = 4-letter sets from dwyl, doublet, knuth_words, wordl3
 - P4 = 4-letter set from paulcc
 - R4 = 4-letter set from raspberrypisig
+- M4 = 4-letter set from rmmh
 
 Then:
 - english_5_strict = SGB5 union { w | w in at least 2 of [D5, DBL5, K5, W35] }
 - english_5 = SGB5 union { w | w in WV5 and w in at least 1 of [D5, DBL5, K5, W35] }
-- english_4_strict = { w | w in at least 2 of [D4, DBL4, K4, W34] }
-- english_4 = english_4_strict union DBL4 union P4 union R4
+- english_4_strict = { w | w in at least 2 of [DBL4, P4, R4, M4] }
+- english_4 = union(DBL4, P4, R4, M4)
 
 ## Outputs
 - data/english_5_strict.txt
