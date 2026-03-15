@@ -80,7 +80,6 @@ bace
 baci
 bagi
 baja
-bajc
 baka
 bake
 baki
@@ -203,7 +202,6 @@ bolu
 bome
 bona
 bone
-bonn
 bonu
 boom
 bora
@@ -241,7 +239,6 @@ brod
 broj
 brom
 broš
-brrr
 brst
 brus
 brza
@@ -488,17 +485,13 @@ drem
 dren
 dres
 dril
-drim
 drma
 drob
-drom
 drop
-drot
 drpa
 drpi
 drpu
 drug
-drum
 drva
 drvo
 drvu
@@ -615,7 +608,6 @@ fini
 fino
 finu
 fleš
-fnrj
 foka
 foke
 foki
@@ -664,7 +656,6 @@ game
 gami
 gamu
 gane
-gang
 gani
 ganu
 gara
@@ -838,7 +829,6 @@ haje
 haju
 hala
 hale
-half
 hali
 halo
 halu
@@ -891,19 +881,12 @@ hrpe
 hrpi
 hrpo
 hrpu
-hrta
-hrte
-hrtu
 hrva
 hrče
 hrči
 hrču
 hrđa
-hsls
 htio
-htje
-html
-http
 huda
 hude
 hudi
@@ -931,7 +914,6 @@ iako
 idem
 ideš
 idih
-idii
 idim
 idiu
 idol
@@ -992,7 +974,6 @@ ista
 iste
 isti
 isto
-istr
 istu
 itko
 iver
@@ -1103,7 +1084,6 @@ ježa
 ježe
 ježi
 ježu
-jmbg
 joga
 joge
 jogi
@@ -1159,7 +1139,6 @@ kala
 kale
 kali
 kalj
-kalk
 kalu
 kama
 kame
@@ -1214,7 +1193,6 @@ kelj
 kesa
 kese
 kesi
-kess
 kesu
 keša
 kešu
@@ -1222,7 +1200,6 @@ kida
 kiha
 kika
 kike
-kiki
 kiku
 kila
 kile
@@ -1254,7 +1231,6 @@ kiše
 kiši
 kišo
 kišu
-klak
 klas
 klek
 klen
@@ -1281,7 +1257,6 @@ koju
 koka
 koke
 koki
-koko
 koks
 koku
 kola
@@ -1347,11 +1322,7 @@ krik
 krim
 kriv
 križ
-krka
-krma
 krme
-krmi
-krmu
 krnj
 kroj
 krom
@@ -1361,7 +1332,6 @@ kroz
 krpa
 krpe
 krpi
-krpo
 krpu
 krst
 krta
@@ -1534,7 +1504,6 @@ liki
 liku
 lila
 lile
-lili
 lilo
 lima
 limb
@@ -1630,7 +1599,6 @@ lula
 lule
 luli
 lulo
-lulu
 luna
 luni
 lunu
@@ -1709,7 +1677,6 @@ mašu
 maže
 maži
 mažu
-mbar
 meci
 meda
 mede
@@ -1833,14 +1800,11 @@ može
 mrak
 mrav
 mraz
-mrem
 mrka
 mrke
 mrki
 mrko
 mrku
-mrse
-mrsi
 mrva
 mrve
 mrvi
@@ -1867,7 +1831,6 @@ mule
 muli
 mulj
 mulu
-must
 mute
 muti
 muva
@@ -1948,7 +1911,6 @@ nike
 niki
 niku
 nila
-nini
 nisi
 nisu
 niti
@@ -2262,7 +2224,6 @@ pilu
 pion
 pipa
 pipe
-pipi
 pipo
 pipu
 pira
@@ -2341,7 +2302,6 @@ prav
 prde
 prdi
 pred
-proj
 prpa
 prpo
 prsa
@@ -2363,7 +2323,6 @@ prči
 prču
 prže
 prži
-psar
 psić
 psom
 ptić
@@ -2598,8 +2557,6 @@ roza
 roče
 roči
 rože
-rtem
-rtom
 ruba
 rube
 rubi
@@ -2690,7 +2647,6 @@ sača
 saša
 saši
 saže
-scsi
 sebe
 sebi
 sefa
@@ -2776,7 +2732,6 @@ skeč
 skok
 skot
 skrb
-skri
 skup
 slab
 slad
@@ -2786,9 +2741,6 @@ slao
 slap
 slat
 sleđ
-slih
-slij
-sliv
 slog
 sloj
 slom
@@ -2800,12 +2752,10 @@ smeč
 smeđ
 smij
 smio
-smje
 smog
 smok
 smrt
 smuđ
-snen
 snio
 snob
 snom
@@ -2834,7 +2784,6 @@ solu
 soma
 some
 somu
-song
 sosa
 sosu
 sova
@@ -2844,12 +2793,9 @@ spas
 spat
 spim
 spis
-spla
 spoj
 spol
 spor
-spra
-srah
 sram
 srao
 sraz
@@ -2860,14 +2806,10 @@ srbu
 srca
 srce
 srcu
-srde
-srdi
-sred
 sreo
 srha
 srhe
 srhu
-srka
 srma
 srmi
 srmu
@@ -2879,15 +2821,12 @@ srnu
 srok
 srpa
 srpe
-srpo
 srpu
-srsi
 srče
 srči
 srču
 srži
 sržu
-sssr
 stan
 star
 stas
@@ -2902,12 +2841,9 @@ stog
 stoj
 stol
 stop
-stre
 strh
 strm
 strn
-stro
-stru
 strv
 stup
 suca
@@ -2980,7 +2916,6 @@ taku
 tala
 tale
 tali
-talk
 tama
 tame
 tami
@@ -3112,11 +3047,8 @@ toči
 trag
 trak
 trap
-trci
 tref
-trem
 tren
-tres
 treš
 trga
 trgu
@@ -3124,22 +3056,14 @@ trik
 trio
 trka
 trke
-trko
 trku
-trna
-trne
 trni
 trnu
 trom
 trop
-trpa
 trpe
 trpi
 trpu
-trsa
-trse
-trsi
-trsu
 trta
 trte
 trti
@@ -3200,7 +3124,6 @@ tušu
 tuže
 tuži
 tvar
-tvin
 tvoj
 tvom
 tvor
@@ -3271,7 +3194,6 @@ unca
 unce
 unci
 uncu
-undp
 unio
 unos
 unuk
@@ -3406,7 +3328,6 @@ vala
 vale
 valu
 vama
-vamp
 vani
 vape
 vapi
@@ -3540,7 +3461,6 @@ vreo
 vrha
 vrhu
 vrij
-vrim
 vrio
 vriš
 vrla
@@ -3549,7 +3469,6 @@ vrli
 vrlo
 vrlu
 vrsi
-vrst
 vrta
 vrte
 vrti
@@ -3583,7 +3502,6 @@ vuča
 vuče
 vuči
 vuču
-watt
 yagi
 zabi
 zaci
@@ -3593,7 +3511,6 @@ zali
 zape
 zapt
 zato
-zatr
 zavi
 zaći
 zače
@@ -3602,10 +3519,8 @@ zađe
 zađi
 zađu
 zaši
-zbir
 zbog
 zbor
-zbra
 zbrd
 zeba
 zebe
@@ -3670,7 +3585,6 @@ zove
 zovi
 zovu
 zrak
-zrem
 zreo
 zrio
 zrna
@@ -3815,7 +3729,6 @@ zvuk
 čiti
 čiča
 čiče
-čiči
 čiču
 član
 čmar
