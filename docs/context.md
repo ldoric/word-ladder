@@ -11,23 +11,27 @@ This file is a working memory reference for agents operating on this repo.
 - data/english_5.txt
 - data/english_4_strict.txt
 - data/english_4.txt
+- data/croatian_5_strict.txt
+- data/croatian_5.txt
+- data/croatian_4_strict.txt
+- data/croatian_4.txt
 
 ## Current counts (latest notebook run)
 - english_5_strict.txt: 5811
 - english_5.txt: 11155
 - english_4_strict.txt: 3176
 - english_4.txt: 5733
+- croatian_*: run notebooks/02_croatian_wordlists.ipynb to generate
 
 ## Practical usage policy
 - Start/target validation:
-  - 5-letter tasks -> english_5_strict.txt
-  - 4-letter tasks -> english_4_strict.txt
+  - 5-letter tasks -> english_5_strict.txt (or croatian_5_strict.txt)
+  - 4-letter tasks -> english_4_strict.txt (or croatian_4_strict.txt)
 - Step expansion during solve:
-  - 5-letter tasks -> english_5.txt
-  - 4-letter tasks -> english_4.txt
-- 4-letter construction detail:
-  - strict: words appearing in at least 2 curated 4-letter sources
-  - non-strict: union of curated 4-letter sources
+  - 5-letter tasks -> english_5.txt (or croatian_5.txt)
+  - 4-letter tasks -> english_4.txt (or croatian_4.txt)
+- English 4-letter: strict = ≥2 curated sources, non-strict = union
+- Croatian: strict = all 3 sources (Rijecalica ∩ kkrypt0nn ∩ HR_Txt), non-strict = ≥2 sources
 - Final path check:
   - Every token in the produced path must exist in the non-strict set used for expansion.
   - Optionally report whether each token is also in the strict set (for analysis).
@@ -38,9 +42,8 @@ This file is a working memory reference for agents operating on this repo.
 - This aligns with thesis goal: compare rule adherence and reliability across methods.
 
 ## Reproducibility note
-- Main generation logic currently lives in Notebook 1, Cell 5:
-  - notebooks/01_word_lists_combine.ipynb
-- Re-run that cell to regenerate all dataset files in data/.
+- English: notebooks/01_word_lists_combine.ipynb (Cell 4)
+- Croatian: notebooks/02_croatian_wordlists.ipynb (Cell 5 build, Cell 7 review gen, Cell 9 apply removals)
 
 ## Caveats
 - Counts can change if source files are updated upstream.

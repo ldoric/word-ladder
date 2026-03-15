@@ -57,7 +57,49 @@ Then:
 - data/english_5.txt
 - data/english_4_strict.txt
 - data/english_4.txt
+- data/croatian_5_strict.txt
+- data/croatian_5.txt
+- data/croatian_4_strict.txt
+- data/croatian_4.txt
+- data/review_croatian_4.txt (generated for manual review)
+- data/review_croatian_5.txt (generated for manual review)
+
+## Croatian resources (2026)
+- Rijecalica (game-cleaned wordlist, best quality)
+  - https://raw.githubusercontent.com/Martinsos/Rijecalica/master/croatian-wordlist-checked-iso8859-2.txt
+  - local: data/raw/rijecalica_croatian.txt (converted to UTF-8 on download)
+  - ISO-8859-2 source; expected 1–3k 4/5-letter words
+- kkrypt0nn/wordlists Croatian (large & comprehensive)
+  - https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/languages/croatian.txt
+  - local: data/raw/kkrypt0nn_croatian.txt
+  - UTF-8, ~95k entries, includes inflected forms
+- gigaly/rjecnik-hrvatskih-jezika HR_Txt (624k+ words)
+  - https://github.com/gigaly/rjecnik-hrvatskih-jezika/releases → HR_Txt-624.zip
+  - local: data/raw/HR_Txt-624.txt (user-provided)
+  - Tab-separated: word\tlemma\t... ; we use first column
+
+## Croatian normalization
+- lowercase
+- keep Croatian letters (č, ć, đ, š, ž)
+- filter by exact length (4 or 5)
+- isalpha() for valid words
+
+## Croatian build formulas
+Let R4, K4, H4 = 4-letter sets from Rijecalica, kkrypt0nn, HR_Txt.
+Let R5, K5, H5 = 5-letter sets from same sources.
+- croatian_4_strict = R4 ∩ K4 ∩ H4 (all 3 sources) minus blocklist
+- croatian_5_strict = R5 ∩ K5 ∩ H5 (all 3 sources) minus blocklist
+- croatian_4 = { w | w in at least 2 of [R4, K4, H4] } minus blocklist
+- croatian_5 = { w | w in at least 2 of [R5, K5, H5] } minus blocklist
+
+Acronym blocklist: filters known abbreviations (adcp, adsl, etc.); extend in notebook.
+
+## Croatian manual review workflow
+1. Run "Generate review files" cell → creates review_croatian_4/5.txt with heuristic-flagged candidates
+2. Heuristics: few_vowels, many_consonants (4+), ascii_few_vowels, repetitive (≤2 distinct letters)
+3. Edit files: DELETE lines for words to keep, LEAVE only words to remove
+4. Run "Apply manual removals" cell → removes those words from all 4 Croatian datasets
 
 ## Implementation location
-- notebooks/01_word_lists_combine.ipynb
-- generation logic in Cell 5
+- notebooks/01_word_lists_combine.ipynb – English (Cell 4)
+- notebooks/02_croatian_wordlists.ipynb – Croatian (Cell 4)
