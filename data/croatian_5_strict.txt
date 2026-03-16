@@ -1529,7 +1529,6 @@ migni
 mignu
 mijeh
 miješ
-milit
 milja
 miner
 minuh
@@ -2286,7 +2285,6 @@ polet
 polih
 polij
 polip
-polit
 polog
 pomak
 pomet

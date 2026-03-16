@@ -77,6 +77,10 @@ Then:
   - https://github.com/gigaly/rjecnik-hrvatskih-jezika/releases → HR_Txt-624.zip
   - local: data/raw/HR_Txt-624.txt (user-provided)
   - Tab-separated: word\tlemma\t... ; we use first column
+- ePADD/muse en-abbreviations (English abbreviations/acronyms)
+  - https://raw.githubusercontent.com/ePADD/muse/master/WebContent/WEB-INF/classes/dictionaries/en-abbreviations.txt
+  - local: data/raw/en-abbreviations.txt (downloaded on first run)
+  - Used to remove acronyms from strict Croatian lists (NASA, FBI, etc.)
 
 ## Croatian normalization
 - lowercase
@@ -87,12 +91,16 @@ Then:
 ## Croatian build formulas
 Let R4, K4, H4 = 4-letter sets from Rijecalica, kkrypt0nn, HR_Txt.
 Let R5, K5, H5 = 5-letter sets from same sources.
-- croatian_4_strict = R4 ∩ K4 ∩ H4 (all 3 sources) minus blocklist
-- croatian_5_strict = R5 ∩ K5 ∩ H5 (all 3 sources) minus blocklist
+- croatian_4_strict = R4 ∩ K4 ∩ H4 (all 3 sources) minus blocklist, **nominative + glagol only**
+- croatian_5_strict = R5 ∩ K5 ∩ H5 (all 3 sources) minus blocklist, **nominative + glagol only**
 - croatian_4 = { w | w in at least 2 of [R4, K4, H4] } minus blocklist
 - croatian_5 = { w | w in at least 2 of [R5, K5, H5] } minus blocklist
 
-Acronym blocklist: filters known abbreviations (adcp, adsl, etc.); extend in notebook.
+**Strict filter (nominative + glagol):** Uses HR_Txt lemma. Keeps only words where `word == lemma` (nominative/base form) or POS is `glagol` (verb forms, incl. past participle). Removes inflected noun/adjective forms (genitive, dative, etc.).
+
+Acronym blocklist: filters known abbreviations (adcp, adsl, etc.); extend in notebook. Strict lists also remove matches from ePADD/muse en-abbreviations.txt (see notebook cell).
+
+**Manual acronym removals (paper-reproducible):** Seven words were manually excluded from strict lists because they match English abbreviations/acronyms (e.g. CRES/Crescent, STAT/station, TRAK/track, NERV/nerve, TROP/tropical, MILIT/military, POLIT/political) and may cause ambiguity in Word Ladder. Removed from croatian_4_strict: *cres*, *stat*, *trak*, *nerv*, *trop*. Removed from croatian_5_strict: *milit*, *polit*.
 
 ## Croatian manual review workflow
 1. Run "Generate review files" cell → creates review_croatian_4/5.txt with heuristic-flagged candidates

@@ -110,7 +110,6 @@ cink
 ciča
 ciči
 cmok
-cres
 crpi
 crpu
 crta
@@ -692,7 +691,6 @@ neka
 nema
 neon
 nerc
-nerv
 nese
 nesi
 neto
@@ -1055,7 +1053,6 @@ srču
 stan
 star
 stas
-stat
 stav
 staž
 step
@@ -1129,7 +1126,6 @@ tost
 tovi
 toči
 trag
-trak
 trap
 tref
 tren
@@ -1139,7 +1135,6 @@ trik
 trio
 trni
 trom
-trop
 trpi
 trud
 trun
