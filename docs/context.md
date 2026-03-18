@@ -22,6 +22,8 @@ This file is a working memory reference for agents operating on this repo.
 - english_4_strict.txt: 3176
 - english_4.txt: 5733
 - croatian_*: run notebooks/02_croatian_wordlists.ipynb to generate
+- croatian_4_strict: manually curated (complete)
+- croatian_5_strict: manually curated via helper cells (e.g. h-ending glagol forms)
 
 ## Practical usage policy
 - Start/target validation:

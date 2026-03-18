@@ -67,7 +67,6 @@ banem
 baneš
 banja
 banka
-banuh
 banut
 banči
 barba
@@ -154,7 +153,6 @@ bodri
 bogac
 bogat
 bogme
-bojah
 bojmo
 bojna
 bojte
@@ -246,7 +244,6 @@ busen
 butan
 butik
 bučan
-buđah
 bušan
 bušač
 bušen
@@ -323,7 +320,6 @@ cvrči
 dabar
 dadeš
 dadne
-dadoh
 dahne
 dajem
 daješ
@@ -376,7 +372,6 @@ diglo
 digne
 digni
 dignu
-digoh
 dijel
 diler
 dimni
@@ -392,7 +387,6 @@ dirnu
 disat
 divan
 divit
-dizah
 dizat
 dizač
 dičan
@@ -422,7 +416,6 @@ dokle
 dolac
 dolar
 dolet
-dolih
 dolje
 domar
 domet
@@ -456,7 +449,6 @@ doček
 dočim
 dođem
 dođeš
-dođoh
 došao
 došla
 drama
@@ -484,7 +476,6 @@ drznu
 drška
 dršće
 dršći
-držah
 držak
 držan
 držat
@@ -505,11 +496,9 @@ dunav
 dunja
 dupin
 dupke
-durah
 dućan
 dušak
 dušek
-duših
 dušik
 dušim
 dužan
@@ -679,7 +668,6 @@ grbim
 grbio
 grcne
 grdan
-grdih
 grdni
 grebe
 grebi
@@ -752,7 +740,6 @@ hajmo
 hajte
 halja
 halva
-hamih
 hapsi
 harem
 harfa
@@ -761,7 +748,6 @@ haški
 helij
 herim
 heroj
-hicih
 hidra
 hihot
 himba
@@ -779,7 +765,6 @@ horda
 hotel
 hotje
 hoćeš
-hođah
 hrana
 hrast
 hrbat
@@ -794,7 +779,6 @@ hujim
 hukao
 hulja
 humak
-humih
 humim
 humka
 humor
@@ -826,7 +810,6 @@ ikako
 ikamo
 ikoji
 ikona
-ikrih
 iliri
 imaju
 imala
@@ -870,7 +853,6 @@ izaći
 izađe
 izađi
 izađu
-izbih
 izbor
 izbra
 izdan
@@ -1030,22 +1012,18 @@ katni
 katun
 kavez
 kavga
-kazah
 kazan
 kazat
 kazna
 kazuj
 kaćun
-kaših
 kažem
 kažeš
-kažih
 kažim
 kebaj
 kefir
 kegla
 kepec
-kesih
 keson
 kicoš
 kifla
@@ -1156,7 +1134,6 @@ kotur
 kotva
 kovač
 kozer
-kozih
 kozji
 kozle
 kočni
@@ -1164,7 +1141,6 @@ košić
 košta
 kožar
 kožni
-kožuh
 krade
 kradi
 kradu
@@ -1205,7 +1181,6 @@ kropi
 kroti
 kroza
 kroči
-krpih
 krpom
 krugi
 krula
@@ -1217,7 +1192,6 @@ krvav
 krzna
 krzno
 krčag
-krčih
 krčka
 krčma
 kršan
@@ -1238,7 +1212,6 @@ kumir
 kumče
 kunem
 kuneš
-kunih
 kunić
 kunja
 kupac
@@ -1250,7 +1223,6 @@ kupon
 kupus
 kurac
 kuren
-kurih
 kurir
 kurit
 kurji
@@ -1280,7 +1252,6 @@ lahor
 lajav
 lajem
 laješ
-lajih
 lajte
 lakat
 lakej
@@ -1297,7 +1268,6 @@ lapće
 larma
 larva
 laser
-lasih
 laska
 lasta
 laura
@@ -1311,11 +1281,9 @@ lažac
 lažan
 lažem
 lažeš
-lažih
 lažov
 lebda
 lebdi
-lecih
 lecne
 lecni
 lecnu
@@ -1325,7 +1293,6 @@ legao
 legat
 legni
 legnu
-legoh
 lejla
 lemeš
 lenta
@@ -1342,7 +1309,6 @@ ležiš
 libar
 libor
 libra
-licih
 licim
 lider
 lijek
@@ -1408,12 +1374,10 @@ lovac
 lovit
 lovor
 ložač
-ložih
 lubin
 lugar
 lukav
 lukin
-lulih
 lumen
 lumin
 lumpa
@@ -1430,7 +1394,6 @@ lučić
 lučni
 luđak
 macan
-macih
 madež
 magla
 magma
@@ -1449,7 +1412,6 @@ makar
 makne
 makni
 maknu
-makoh
 makro
 maksa
 maksi
@@ -1457,12 +1419,10 @@ maler
 malja
 malne
 mamac
-mamih
 mamit
 mamut
 mango
 manji
-marih
 marka
 marni
 marod
@@ -1470,7 +1430,6 @@ marva
 marši
 marža
 maser
-masih
 masiv
 maska
 maslo
@@ -1527,11 +1486,9 @@ mider
 migne
 migni
 mignu
-mijeh
 miješ
 milja
 miner
-minuh
 minus
 minut
 miran
@@ -1562,19 +1519,16 @@ model
 modem
 modul
 modus
-mogah
 mogao
 mogla
 mogli
 moglo
 mogne
-mogoh
 mokar
 molba
 molit
 momak
 momče
-monah
 moped
 moral
 mosor
@@ -1606,7 +1560,6 @@ mrtav
 mrzak
 mrzli
 mrzne
-mrčih
 mršav
 mršti
 mudar
@@ -1633,7 +1586,6 @@ mučit
 mučki
 mužar
 mužić
-nabih
 nabla
 naboj
 nabor
@@ -1674,9 +1626,7 @@ naoko
 naoru
 naoči
 napad
-napeh
 napet
-napih
 napis
 napne
 napni
@@ -1691,7 +1641,6 @@ nasip
 naspe
 nauka
 nauči
-navih
 navod
 navoj
 navre
@@ -1712,7 +1661,6 @@ načuj
 nađem
 nađen
 nađeš
-nađoh
 našao
 našla
 našli
@@ -1858,7 +1806,6 @@ odići
 odižu
 odjek
 odjel
-odlih
 odlij
 odmah
 odmak
@@ -1881,7 +1828,6 @@ oduči
 oduži
 odveo
 odveć
-odvih
 odvod
 odvoz
 odziv
@@ -1972,7 +1918,6 @@ opiši
 opišu
 opkop
 opleo
-oprah
 opran
 oprat
 oprez
@@ -1981,7 +1926,6 @@ opseg
 opsuj
 optok
 opute
-opših
 opšij
 opšim
 orada
@@ -2122,7 +2066,6 @@ paran
 parip
 parić
 parka
-paroh
 parče
 pasao
 pasat
@@ -2208,7 +2151,6 @@ pirja
 pirni
 pirot
 pisac
-pisah
 pisak
 pisan
 pisar
@@ -2282,7 +2224,6 @@ pokla
 pokop
 pokus
 polet
-polih
 polij
 polip
 polog
@@ -2298,9 +2239,7 @@ ponor
 ponos
 ponoć
 poora
-popeh
 popet
-popih
 popis
 popni
 popra
@@ -2331,7 +2270,6 @@ pouci
 pouka
 pouči
 povez
-povih
 povik
 povod
 povoj
@@ -2347,7 +2285,6 @@ počni
 počnu
 pođem
 pođeš
-pođoh
 pošao
 pošla
 pošli
@@ -2458,7 +2395,6 @@ putuj
 pušač
 pušem
 pušeš
-puših
 puška
 pušta
 pužeš
@@ -2521,15 +2457,12 @@ rekla
 rekne
 rekni
 reknu
-rekoh
 relej
 remek
 remen
-remih
 renta
 reper
 repić
-resih
 reska
 resor
 reuma
@@ -2557,7 +2490,6 @@ rikni
 riknu
 rikša
 rinem
-rinuh
 risač
 riter
 rival
@@ -2592,7 +2524,6 @@ rovka
 rozga
 rođak
 rođen
-rošah
 rubac
 rubim
 rubin
@@ -2608,7 +2539,6 @@ rukne
 rulja
 rumen
 runda
-rusih
 rusim
 rutav
 ručak
@@ -2644,7 +2574,6 @@ sakat
 saksa
 salaš
 saldo
-salih
 salon
 salva
 samac
@@ -2663,7 +2592,6 @@ sapun
 sarma
 saspe
 saspi
-sasuh
 saten
 satir
 satić
@@ -2678,9 +2606,7 @@ sazuj
 sazva
 sačma
 sađen
-saših
 sašio
-sažeh
 sažet
 sažme
 sažmi
@@ -2724,7 +2650,6 @@ sinem
 sineš
 sinko
 sinoć
-sinuh
 sinus
 sinut
 sipin
@@ -2739,7 +2664,6 @@ sitan
 sitar
 siđem
 siđeš
-siđoh
 sišao
 sišem
 sišeš
@@ -2779,7 +2703,6 @@ sklon
 sklop
 skoba
 skoči
-skrih
 skroz
 skrši
 skubi
@@ -2978,7 +2901,6 @@ sunet
 sunča
 suoči
 super
-surih
 surim
 surka
 surla
@@ -3116,7 +3038,6 @@ tisnu
 titra
 tičem
 tičeš
-tiših
 tišim
 tište
 tišti
@@ -3171,7 +3092,6 @@ treći
 trgne
 trgni
 trgnu
-trgoh
 trica
 trija
 triko
@@ -3197,7 +3117,6 @@ trudi
 truje
 truju
 trzaj
-trčah
 trčim
 trčiš
 tucet
@@ -3237,7 +3156,6 @@ ubiru
 ubiti
 ubiše
 ubost
-ubrah
 ubrus
 ubrza
 ubrzo
@@ -3397,7 +3315,6 @@ usmen
 usnem
 usnen
 usneš
-usnuh
 usnut
 usoli
 uspje
@@ -3406,7 +3323,6 @@ uspni
 uspnu
 uspon
 usput
-usrah
 usred
 ustav
 ustuk
@@ -3471,7 +3387,6 @@ uvući
 uvuče
 uzdah
 uzdan
-uzduh
 uzduž
 uzela
 uzeli
@@ -3513,7 +3428,6 @@ uštap
 ušuti
 užeći
 užeže
-užgah
 užina
 uživa
 uživi
@@ -3577,7 +3491,6 @@ vihor
 vijak
 vijek
 viješ
-vikah
 vikar
 vikač
 vikne
@@ -3675,7 +3588,6 @@ vučić
 vučji
 zabat
 zabit
-zadah
 zadak
 zadat
 zadri
@@ -3688,7 +3600,6 @@ zakon
 zakup
 zalaz
 zalet
-zalih
 zalim
 zalog
 zamah
@@ -3703,12 +3614,10 @@ zanio
 zanos
 zaova
 zapad
-zapah
 zapis
 zapne
 zapor
 zapri
-zapuh
 zarad
 zarez
 zarij
@@ -3727,7 +3636,6 @@ zator
 zatre
 zatri
 zauze
-zavih
 zavod
 zavoj
 zavor
@@ -3736,7 +3644,6 @@ začas
 začin
 začne
 zađeš
-zađoh
 zašao
 zašlo
 zašto
@@ -3950,7 +3857,6 @@ zvuči
 šašav
 šegrt
 šenoa
-šenuh
 šenut
 šepav
 šerif

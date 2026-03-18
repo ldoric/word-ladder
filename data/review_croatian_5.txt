@@ -1,155 +1,94 @@
-brsta	# few_vowels,many_consonants,ascii_few_vowels
-brstu	# few_vowels,many_consonants,ascii_few_vowels
-crpem	# few_vowels,ascii_few_vowels
-crpeš	# few_vowels
-
-crpla	# few_vowels,many_consonants,ascii_few_vowels
-crpna	# few_vowels,many_consonants,ascii_few_vowels
-crpne	# few_vowels,many_consonants,ascii_few_vowels
-crpni	# few_vowels,many_consonants,ascii_few_vowels
-crpnu	# few_vowels,many_consonants,ascii_few_vowels
-drmeš	# few_vowels
-
-drvim	# few_vowels,ascii_few_vowels
-drzne	# few_vowels,many_consonants,ascii_few_vowels
-
-grkim	# few_vowels,ascii_few_vowels
-
-grđem	# few_vowels
-grđih	# few_vowels
-grđim	# few_vowels
-grđoj	# few_vowels
-grđom	# few_vowels
-gverc	# few_vowels,ascii_few_vowels
-
-hrpta	# few_vowels,many_consonants,ascii_few_vowels
-hrpti	# few_vowels,many_consonants,ascii_few_vowels
-hrptu	# few_vowels,many_consonants,ascii_few_vowels
-hrska	# few_vowels,many_consonants,ascii_few_vowels
-hrtih	# few_vowels,ascii_few_vowels
-hrtom	# few_vowels,ascii_few_vowels
-kakaa	# repetitive
-krdoj	# few_vowels,ascii_few_vowels
-
-krmna	# few_vowels,many_consonants,ascii_few_vowels
-krmne	# few_vowels,many_consonants,ascii_few_vowels
-krmni	# few_vowels,many_consonants,ascii_few_vowels
-krmnu	# few_vowels,many_consonants,ascii_few_vowels
-krmoj	# few_vowels,ascii_few_vowels
-
-krsta	# few_vowels,many_consonants,ascii_few_vowels
-krstu	# few_vowels,many_consonants,ascii_few_vowels
-krvih	# few_vowels,ascii_few_vowels
-krvim	# few_vowels,ascii_few_vowels
-krzma	# few_vowels,many_consonants,ascii_few_vowels
-
-krčke	# few_vowels
-krčki	# few_vowels
-krčko	# few_vowels
-krčku	# few_vowels
-krške	# few_vowels
-kršoj	# few_vowels
-light	# few_vowels,ascii_few_vowels
-mrknu	# few_vowels,many_consonants,ascii_few_vowels
-mrkom	# few_vowels,ascii_few_vowels
-
-mrčoj	# few_vowels
-mrčom	# few_vowels
-pinkl	# few_vowels,ascii_few_vowels
-
-protr	# few_vowels,ascii_few_vowels
-prski	# few_vowels,many_consonants,ascii_few_vowels
-prsna	# few_vowels,many_consonants,ascii_few_vowels
-prsne	# few_vowels,many_consonants,ascii_few_vowels
-rtanj	# few_vowels,ascii_few_vowels
-
-singl	# few_vowels,ascii_few_vowels
-smrsi	# few_vowels,many_consonants,ascii_few_vowels
-srbim	# few_vowels,ascii_few_vowels
-srbuj	# few_vowels,ascii_few_vowels
-srhom	# few_vowels,ascii_few_vowels
-srmom	# few_vowels,ascii_few_vowels
-strem	# few_vowels,ascii_few_vowels
-
-strko	# few_vowels,many_consonants,ascii_few_vowels
-strla	# few_vowels,many_consonants,ascii_few_vowels
-strli	# few_vowels,many_consonants,ascii_few_vowels
-strte	# few_vowels,many_consonants,ascii_few_vowels
-strti	# few_vowels,many_consonants,ascii_few_vowels
-strvi	# few_vowels,many_consonants,ascii_few_vowels
-strča	# few_vowels
-strče	# few_vowels
-strči	# few_vowels
-strže	# few_vowels
-
-svrne	# few_vowels,many_consonants,ascii_few_vowels
-svrni	# few_vowels,many_consonants,ascii_few_vowels
-svrnu	# few_vowels,many_consonants,ascii_few_vowels
-svrći	# few_vowels
-svrže	# few_vowels
-trkin	# few_vowels,ascii_few_vowels
-trpka	# few_vowels,many_consonants,ascii_few_vowels
-trpke	# few_vowels,many_consonants,ascii_few_vowels
-trpki	# few_vowels,many_consonants,ascii_few_vowels
-trpko	# few_vowels,many_consonants,ascii_few_vowels
-trpku	# few_vowels,many_consonants,ascii_few_vowels
-
-trpna	# few_vowels,many_consonants,ascii_few_vowels
-trpne	# few_vowels,many_consonants,ascii_few_vowels
-trpni	# few_vowels,many_consonants,ascii_few_vowels
-trpnu	# few_vowels,many_consonants,ascii_few_vowels
-trpom	# few_vowels,ascii_few_vowels
-trsat	# few_vowels,ascii_few_vowels
-trsom	# few_vowels,ascii_few_vowels
-trtih	# few_vowels,ascii_few_vowels
-trtim	# few_vowels,ascii_few_vowels
-trtoj	# few_vowels,ascii_few_vowels
-trtom	# few_vowels,ascii_few_vowels
-trust	# few_vowels,ascii_few_vowels
-
-trven	# few_vowels,ascii_few_vowels
-trčci	# few_vowels
-trčka	# few_vowels
-trčke	# few_vowels
-trčki	# few_vowels
-trčku	# few_vowels
-tržim	# few_vowels
-tržiš	# few_vowels
-tržna	# few_vowels
-tržni	# few_vowels
-tržno	# few_vowels
-
-unhcr	# few_vowels,many_consonants,ascii_few_vowels
-vrbem	# few_vowels,ascii_few_vowels
-vrbov	# few_vowels,ascii_few_vowels
-vrcnu	# few_vowels,many_consonants,ascii_few_vowels
-vrdaj	# few_vowels,ascii_few_vowels
-vrgli	# few_vowels,many_consonants,ascii_few_vowels
-vrgne	# few_vowels,many_consonants,ascii_few_vowels
-vrgni	# few_vowels,many_consonants,ascii_few_vowels
-vrgnu	# few_vowels,many_consonants,ascii_few_vowels
-vrgoh	# few_vowels,ascii_few_vowels
-
-vrvim	# few_vowels,ascii_few_vowels
-vrviš	# few_vowels
-vrčem	# few_vowels
-vršna	# few_vowels
-vršne	# few_vowels
-vršni	# few_vowels
-vršno	# few_vowels
-vršnu	# few_vowels
-vršom	# few_vowels
-
-zdrug	# few_vowels,ascii_few_vowels
-zgrne	# few_vowels,many_consonants,ascii_few_vowels
-zgrni	# few_vowels,many_consonants,ascii_few_vowels
-zgrnu	# few_vowels,many_consonants,ascii_few_vowels
-zrnim	# few_vowels,ascii_few_vowels
-črčka	# few_vowels
-škrca	# few_vowels
-
-škrce	# few_vowels
-škrče	# few_vowels
-špigl	# few_vowels
-štrca	# few_vowels
-žminj	# few_vowels
+banuh
+bojah
+buđah
+dadoh
+digoh
+dizah
+dolih
+dođoh
+držah
+durah
+duših
+grdih
+hamih
+hicih
+hođah
+humih
+ikrih
+izbih
+kazah
+kaših
+kažih
+kesih
+kozih
+kožuh
+krpih
+krčih
+kunih
+kurih
+lajih
+lasih
+lažih
+lecih
+legoh
+licih
+ložih
+lulih
+macih
+makoh
+mamih
+marih
+masih
+mijeh
+minuh
+mogah
+mogoh
+monah
+mrčih
+nabih
+napeh
+napih
+navih
+nađoh
+odlih
+odvih
+oprah
+opših
+paroh
+pisah
+polih
+popeh
+popih
+povih
+pođoh
+puših
+rekoh
+remih
+resih
+rinuh
+rošah
+rusih
+salih
+sasuh
+saših
+sažeh
+sinuh
+siđoh
+skrih
+surih
+tiših
+trgoh
+trčah
+ubrah
+usnuh
+usrah
+uzduh
+užgah
+vikah
+zadah
+zalih
+zapah
+zapuh
+zavih
+zađoh
+šenuh

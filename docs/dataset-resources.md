@@ -103,10 +103,14 @@ Acronym blocklist: filters known abbreviations (adcp, adsl, etc.); extend in not
 **Manual acronym removals (paper-reproducible):** Seven words were manually excluded from strict lists because they match English abbreviations/acronyms (e.g. CRES/Crescent, STAT/station, TRAK/track, NERV/nerve, TROP/tropical, MILIT/military, POLIT/political) and may cause ambiguity in Word Ladder. Removed from croatian_4_strict: *cres*, *stat*, *trak*, *nerv*, *trop*. Removed from croatian_5_strict: *milit*, *polit*.
 
 ## Croatian manual review workflow
-1. Run "Generate review files" cell → creates review_croatian_4/5.txt with heuristic-flagged candidates
-2. Heuristics: few_vowels, many_consonants (4+), ascii_few_vowels, repetitive (≤2 distinct letters)
-3. Edit files: DELETE lines for words to keep, LEAVE only words to remove
-4. Run "Apply manual removals" cell → removes those words from all 4 Croatian datasets
+
+**Strict 4:** Manually curated – all unwanted words have been removed from croatian_4_strict.
+
+**Strict 5:** In progress. Helper cells (e.g. "Add 5-letter words ending in 'h'") populate review_croatian_5.txt with candidate subsets to speed up filtering. More such cells can be added (e.g. other glagol endings, patterns).
+
+1. Run "Generate review files" cell → heuristic-flagged candidates; or run helper cells (e.g. h-ending) → targeted subsets
+2. Edit review files: DELETE lines for words to keep, LEAVE only words to remove
+3. Run "Apply manual removals" cell → removes those words from **strict only** (croatian_4_strict, croatian_5_strict). Non-strict files (croatian_4, croatian_5) are unchanged.
 
 ## Implementation location
 - notebooks/01_word_lists_combine.ipynb – English (Cell 4)
