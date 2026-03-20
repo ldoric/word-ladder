@@ -2,19 +2,12 @@ adut
 ajde
 akna
 alat
-alem
 alfa
 alga
 alka
-alva
-ansa
-anus
 apel
-arak
-argo
 ariš
 arka
-atak
 atom
 aula
 aura
@@ -27,7 +20,6 @@ baka
 bala
 bara
 bard
-bauk
 bava
 bavi
 baza
@@ -35,7 +27,6 @@ beba
 bedž
 beka
 bela
-bena
 bere
 besa
 bide
@@ -58,11 +49,9 @@ boja
 boks
 boli
 bome
-bona
 bori
 bost
 bova
-boza
 brak
 brat
 brdo
@@ -72,7 +61,6 @@ brod
 broj
 brom
 broš
-brst
 brus
 brža
 brži
@@ -122,7 +110,6 @@ djed
 dlan
 doda
 doji
-dota
 doza
 doći
 dođi
@@ -167,7 +154,6 @@ figa
 fila
 filc
 film
-foka
 fond
 font
 fora
@@ -231,9 +217,7 @@ guru
 gust
 guta
 guza
-guša
 hala
-halo
 hara
 herc
 hipi
@@ -297,7 +281,6 @@ jota
 jugo
 juha
 juri
-juta
 kaca
 kada
 kaić
@@ -382,7 +365,6 @@ kuja
 kuka
 kula
 kult
-kuma
 kuna
 kupe
 kurs
@@ -541,7 +523,6 @@ okot
 okov
 okus
 ološ
-oluk
 omot
 omča
 onaj
@@ -552,7 +533,6 @@ opis
 opna
 opći
 orah
-oram
 orat
 orač
 orem
@@ -597,7 +577,6 @@ pije
 piju
 pika
 pila
-pion
 pipa
 pita
 piva
@@ -1026,7 +1005,6 @@ zvuk
 šupa
 šuti
 žaba
-žala
 žanr
 žega
 žena

@@ -104,9 +104,11 @@ Acronym blocklist: filters known abbreviations (adcp, adsl, etc.); extend in not
 
 ## Croatian manual review workflow
 
+Both strict Croatian files have been manually removed and filtered.
+
 **Strict 4:** Manually curated – all unwanted words have been removed from croatian_4_strict.
 
-**Strict 5:** In progress. Helper cells (e.g. "Add 5-letter words ending in 'h'") populate review_croatian_5.txt with candidate subsets to speed up filtering. More such cells can be added (e.g. other glagol endings, patterns).
+**Strict 5:** Manually curated – all unwanted words have been removed from croatian_5_strict.
 
 1. Run "Generate review files" cell → heuristic-flagged candidates; or run helper cells (e.g. h-ending) → targeted subsets
 2. Edit review files: DELETE lines for words to keep, LEAVE only words to remove
