@@ -63,6 +63,12 @@ Then:
 - data/croatian_4.txt
 - data/review_croatian_4.txt (generated for manual review)
 - data/review_croatian_5.txt (generated for manual review)
+- data/islands/english_4_largest_island.txt
+- data/islands/english_4_strict_largest_island.txt
+- data/islands/english_4_strict_only_island.txt
+- data/islands/english_5_largest_island.txt
+- data/islands/english_5_strict_largest_island.txt
+- data/islands/english_5_strict_only_island.txt
 - data/islands/croatian_4_largest_island.txt
 - data/islands/croatian_4_strict_largest_island.txt
 - data/islands/croatian_4_strict_only_island.txt
@@ -120,6 +126,16 @@ Both strict Croatian files have been manually removed and filtered.
 2. Edit review files: DELETE lines for words to keep, LEAVE only words to remove
 3. Run "Apply manual removals" cell → removes those words from **strict only** (croatian_4_strict, croatian_5_strict). Non-strict files (croatian_4, croatian_5) are unchanged.
 
+## English island files (largest component only)
+
+Derived from notebooks/04_english_datasets_testing.ipynb. For gameplay, only words in the largest connected component are used so every start/end pair is solvable.
+
+| File | Steps | Endpoints | 4-letter | 5-letter |
+|------|-------|-----------|----------|----------|
+| english_n_largest_island.txt | non-strict | non-strict | 5643 | 9902 |
+| english_n_strict_largest_island.txt | non-strict | strict | 3155 | 5330 |
+| english_n_strict_only_island.txt | strict | strict | 3050 | 4573 |
+
 ## Croatian island files (largest component only)
 
 Derived from notebooks/03_croatian_datasets_testing.ipynb. For gameplay, only words in the largest connected component are used so every start/end pair is solvable.
@@ -128,9 +144,10 @@ Derived from notebooks/03_croatian_datasets_testing.ipynb. For gameplay, only wo
 |------|-------|-----------|----------|----------|
 | croatian_n_largest_island.txt | non-strict | non-strict | 3863 | 11052 |
 | croatian_n_strict_largest_island.txt | non-strict | strict | 941 | 1448 |
-| croatian_n_strict_only_island.txt | strict | strict | run notebook | 57 |
+| croatian_n_strict_only_island.txt | strict | strict | 767 | 57 |
 
 ## Implementation location
 - notebooks/01_word_lists_combine.ipynb – English (Cell 4)
 - notebooks/02_croatian_wordlists.ipynb – Croatian (Cell 4)
 - notebooks/03_croatian_datasets_testing.ipynb – Croatian islands (filter to largest component)
+- notebooks/04_english_datasets_testing.ipynb – English islands (filter to largest component)
