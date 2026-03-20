@@ -15,6 +15,9 @@ This file is a working memory reference for agents operating on this repo.
 - data/croatian_5.txt
 - data/croatian_4_strict.txt
 - data/croatian_4.txt
+- data/islands/croatian_*_largest_island.txt (non-strict, largest component only)
+- data/islands/croatian_*_strict_largest_island.txt (strict endpoints, non-strict steps)
+- data/islands/croatian_*_strict_only_island.txt (strict steps and endpoints)
 
 ## Current counts (latest notebook run)
 - english_5_strict.txt: 5811
@@ -24,6 +27,7 @@ This file is a working memory reference for agents operating on this repo.
 - croatian_*: run notebooks/02_croatian_wordlists.ipynb to generate
 - croatian_4_strict: manually curated (complete)
 - croatian_5_strict: manually curated via helper cells (e.g. h-ending glagol forms)
+- croatian island files (data/islands/): 4-letter largest 3863, strict_largest 941; 5-letter largest 11052, strict_largest 1448, strict_only 57
 
 ## Practical usage policy
 - Start/target validation:
@@ -32,6 +36,7 @@ This file is a working memory reference for agents operating on this repo.
 - Step expansion during solve:
   - 5-letter tasks -> english_5.txt (or croatian_5.txt)
   - 4-letter tasks -> english_4.txt (or croatian_4.txt)
+- Croatian gameplay (guaranteed solvable pairs): use data/islands/ files. largest_island = non-strict; strict_largest_island = strict endpoints + non-strict steps; strict_only_island = strict only (5-letter has 57 words).
 - English 4-letter: strict = ≥2 curated sources, non-strict = union
 - Croatian: strict = all 3 sources (Rijecalica ∩ kkrypt0nn ∩ HR_Txt), non-strict = ≥2 sources
 - Final path check:
@@ -46,6 +51,7 @@ This file is a working memory reference for agents operating on this repo.
 ## Reproducibility note
 - English: notebooks/01_word_lists_combine.ipynb (Cell 4)
 - Croatian: notebooks/02_croatian_wordlists.ipynb (Cell 5 build, Cell 7 review gen, Cell 9 apply removals)
+- Croatian islands: notebooks/03_croatian_datasets_testing.ipynb (filter to largest component)
 
 ## Caveats
 - Counts can change if source files are updated upstream.
