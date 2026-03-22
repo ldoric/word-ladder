@@ -147,22 +147,110 @@ pip install transformers torch pandas tqdm accelerate networkx
 
 ---
 
-## 7. Results (baseline setup)
+## 7. Results
 
-| Split | Accuracy |
-|-------|----------|
-| Validation | 77.45% |
-| Test | 79.51% |
+### Run comparison
 
-**Baseline (BERT):** bert-base-uncased, 3 epochs, batch 32, 15k examples, ~3h on CPU.
+| Run | Model | Examples | Val Acc | Test Acc | Notes |
+|-----|-------|----------|---------|----------|------|
+| 1 (CPU) | bert-base-uncased | 15k | 77.45% | 79.51% | ~3h on CPU |
+| 2 (Colab GPU) | roberta-base | 50k | 75.80% | 74.13% | same dataset |
+| 3 (Colab GPU) | bert-base-uncased | 50k | **82.84%** | **81.75%** | same dataset as #2 |
 
-**Current setup:** roberta-base, 50k examples, run on Colab GPU.
+### BERT Colab run (2025-03-20) — same dataset as RoBERTa
+- **Training:** 3 epochs, batch 32, ~1480 s on Colab T4
+- **Validation:** 82.84% | **Test:** 81.75%
+- **Training loss:** 0.46 → 0.40 → 0.30 (still learning; val loss 0.45→0.44→0.46)
+- **Inference demo:** lased→livid, correct `laved` ranked 6th (laser scored 0.89) — tricky case
 
-**Inference:** Correct next step often in top-2 or top-3 (e.g. saned→scrip: sayed ranked 2nd behind sanes). Model is useful even when not #1.
+### RoBERTa Colab run (2025-03-20)
+- **Training:** 3 epochs, batch 32, ~1498 s (~25 min) on Colab T4
+- **Validation:** 75.80%
+- **Test:** 74.13%
+- **Inference demo:** lased→livid, correct `laved` ranked 7th (tied at 0.216 with others)
+
+RoBERTa performed **worse** than BERT on the **same** 50k dataset (75.8% vs 82.8% val). Likely reasons:
+- BERT's native `[SEP]` matches our `current [SEP] target` format; RoBERTa uses `</s>` and may not align as well
+- RoBERTa loss plateaued ~0.55; BERT kept improving (0.46→0.30 train loss)
+- For this task and format, BERT fits better (Run 3 confirms)
+
+### UNEXPECTED / MISSING keys when loading RoBERTa
+Normal when loading `roberta-base` for sequence classification:
+- **UNEXPECTED:** `lm_head.*`, `LayerNorm.beta/gamma` — RoBERTa uses different naming; can be ignored
+- **MISSING:** `classifier.*` — new classification head; trained from scratch
+
+### Path generation: model fails
+
+When used **greedily** to generate full paths (start → target), the model **almost never succeeds** except for trivial 1-step cases (e.g. light→right). For any multi-step path it gets stuck; BFS fallback is required. **The current model is not useful for path generation.**
 
 ---
 
-## 8. How to improve (training changes to try)
+## 7b. Why the model fails at path generation (analysis)
+
+### What we trained
+- **Task:** Binary classification — given (current, target) + candidate, is the candidate the correct next step on a shortest path?
+- **Result:** 82% test accuracy on held-out next-step classification.
+- **Expected use:** Greedily pick best neighbor at each step to build a path.
+
+### Why greedy path generation fails
+
+1. **Compounding errors:** Even at 82% per-step accuracy, over 5 steps that’s ~0.82⁵ ≈ 35% chance of a correct full path. One wrong step can lead to a dead end and force a full restart.
+
+2. **No graph awareness:** The model only sees text. It has no access to connectivity (which words can reach the target). It may rely on lexical similarity to the target (e.g. shared letters) instead of graph structure.
+
+3. **Single positive per step:** We labeled only one “correct” next step per position. But many shortest paths exist; several neighbors can be valid. Training on a single positive may overfit to that choice and penalize others.
+
+4. **Distribution shift:** Training used (current, target) pairs from true shortest paths. At inference, a single wrong step puts us in a state the model rarely saw: off-path. It may not generalize well from those states.
+
+5. **Local vs global:** The model decides step-by-step without knowing the full path or remaining distance. It may prefer locally “good” moves that don’t lead to a valid path.
+
+### Did we approach training wrong?
+
+The setup (next-step binary classification) is reasonable, but it has limits:
+
+- **Better targets:** Use all valid next steps on any shortest path as positives (multi-label), not just one.
+- **Harder negatives:** Prefer wrong neighbors that look plausible (e.g. share letters with target) over random vocab words.
+- **Alternative tasks:** Train a value function (estimated steps to target) and pick neighbors that minimize it; or use seq2seq to generate full paths; or use a graph-aware model (GNN) with connectivity.
+- **Beam search:** Keep top-k candidates per step instead of pure greedy to reduce sensitivity to single mistakes.
+
+### Bottom line
+
+The model performs well on the classification task it was trained for, but that task does not transfer well to greedy path generation. The approach is sound in principle, but the current setup is not sufficient for reliable path finding.
+
+---
+
+## 8. Beam search (implemented)
+
+Path generation now uses **beam search** (beam size 3 by default) instead of greedy. Try:
+
+```bash
+python scripts/play_wordladder.py saned scrip
+python scripts/play_wordladder.py saned scrip --beam 5   # wider beam
+python scripts/play_wordladder.py saned scrip --beam 1   # greedy
+```
+
+If beam search still fails often, use the multi-positive + harder negatives retrain below.
+
+---
+
+## 9. Multi-positive + harder negatives (for future retraining)
+
+If beam search isn't enough, retrain with improved data. **Notebook 05** has flags (set both `True`):
+
+- **MULTI_POSITIVE = True** — For each (current, target), label ALL neighbors that lie on any shortest path as positive (not just one). Lets the model accept multiple valid moves.
+- **HARD_NEGATIVES = True** — Prefer wrong neighbors that share letters with the target (plausible but wrong) over random vocab words.
+
+### What to run for training
+
+1. **Notebook 05** — Set `MULTI_POSITIVE = True` and `HARD_NEGATIVES = True` at top of the "Create examples" cell. Run all cells. This generates new CSVs (overwrites `data/training/wordladder_english5_*.csv`).
+2. **Notebook 06** — Run on Colab with GPU. Same as before; it reads the new CSVs.
+3. Download the trained model and test with `play_wordladder.py`.
+
+**Note:** With MULTI_POSITIVE, notebook 05 is slower (computes `shortest_path_length` per neighbor). Run on Colab if needed.
+
+---
+
+## 10. How to improve (training changes to try)
 
 ### Data (notebook 05)
 | Change | Why |
@@ -199,10 +287,14 @@ pip install transformers torch pandas tqdm accelerate networkx
 
 ---
 
-## 9. Changelog
+## 11. Changelog
 
 - **2025-03-20:** Created training pipeline (05 data gen, 06 BERT finetune)
 - **2025-03-20:** First CPU training run completed — val 77.45%, test 79.51%
 - **2025-03-20:** Fixed evaluate cell (manual eval to avoid callback error)
 - **2025-03-20:** Added improvement ideas (Section 8)
 - **2025-03-20:** Raised cap to 50k, switched to roberta-base, added .gitignore for models/outputs/training CSVs
+- **2025-03-20:** RoBERTa Colab run — val 75.80%, test 74.13% (worse than BERT baseline). Added colab-setup.md
+- **2025-03-20:** BERT Colab run on same dataset — val 82.84%, test 81.75% (best so far)
+- **2025-03-22:** Path generation testing: model fails for multi-step paths; only 1-step trivial cases work. BFS fallback added. Section 7b analysis added.
+- **2025-03-22:** Beam search implemented (script + notebook). Multi-positive and harder negatives added to notebook 05 (flags off by default). Section 9 documents retraining steps.

@@ -5,8 +5,9 @@ A Python project for building and experimenting with word ladder data and logic,
 ## Current Status
 
 - **Datasets:** English and Croatian 4/5-letter word lists (strict + non-strict, island-filtered)
-- **Model:** RoBERTa fine-tuned on English 5-letter ladders (val ~77.5%, test ~79.5% baseline)
+- **Model:** BERT fine-tuned on English 5-letter ladders (val 82.8%, test 81.8%)
 - **Model path:** `models/bert_wordladder_5letter/` (gitignored)
+- **Play:** `python scripts/play_wordladder.py START TARGET` — generates a path between 5-letter words
 
 ## Notebooks
 
@@ -17,13 +18,14 @@ A Python project for building and experimenting with word ladder data and logic,
 | `03_croatian_datasets_testing.ipynb` | Croatian connectivity + island extraction |
 | `04_english_datasets_testing.ipynb` | English connectivity + island extraction |
 | `05_english_5_letter_training.ipynb` | Generate BERT training data (CSVs) |
-| `06_bert_wordladder_finetune.ipynb` | Fine-tune RoBERTa, evaluate, inference (run on Colab for GPU) |
+| `06_bert_wordladder_finetune.ipynb` | Fine-tune BERT, evaluate, inference, path generation (run on Colab for GPU) |
 
 ## Docs
 
 - **docs/context.md** — Agent context and dataset usage
 - **docs/dataset-resources.md** — Source list and build formulas
 - **docs/trainingLog.md** — Training pipeline, hyperparameters, results
+- **docs/colab-setup.md** — Google Colab setup and model download
 
 ## Project Setup
 
@@ -39,8 +41,13 @@ A Python project for building and experimenting with word ladder data and logic,
 
 ## Run
 
+**Train (on Colab):** See `docs/colab-setup.md`.
+
+**Play with a downloaded model:**
 ```powershell
-jupyter notebook notebooks/06_bert_wordladder_finetune.ipynb
+python scripts/play_wordladder.py saned scrip
+python scripts/play_wordladder.py saned scrip --beam 5   # wider beam
+python scripts/play_wordladder.py   # interactive mode
 ```
 
-Or run notebooks in order (01 → 04 → 05 → 06) for a full pipeline.
+**Notebooks:** Run in order 01 → 04 → 05 → 06. Or open `06_bert_wordladder_finetune.ipynb` and use the "Generate path" section.
