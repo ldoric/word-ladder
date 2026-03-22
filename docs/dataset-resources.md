@@ -75,6 +75,9 @@ Then:
 - data/islands/croatian_5_largest_island.txt
 - data/islands/croatian_5_strict_largest_island.txt
 - data/islands/croatian_5_strict_only_island.txt
+- data/training/wordladder_english5_train.csv
+- data/training/wordladder_english5_val.csv
+- data/training/wordladder_english5_test.csv
 
 ## Croatian resources (2026)
 - Rijecalica (game-cleaned wordlist, best quality)
@@ -136,6 +139,10 @@ Derived from notebooks/04_english_datasets_testing.ipynb. For gameplay, only wor
 | english_n_strict_largest_island.txt | non-strict | strict | 3155 | 5330 |
 | english_n_strict_only_island.txt | strict | strict | 3050 | 4573 |
 
+## BERT training data (English 5-letter)
+
+Derived from notebooks/05_english_5_letter_training.ipynb. Binary classification: given (current, target), is candidate the correct next step on a shortest path? Uses data/islands/english_5_strict_largest_island.txt (start/target) and english_5_largest_island.txt (steps). ~8k–15k examples, 90/5/5 train/val/test split. CSV format. Uses data/islands/ (largest component only). Split by (start, target) to avoid leakage; stratified by path length; deduplicated.
+
 ## Croatian island files (largest component only)
 
 Derived from notebooks/03_croatian_datasets_testing.ipynb. For gameplay, only words in the largest connected component are used so every start/end pair is solvable.
@@ -151,3 +158,7 @@ Derived from notebooks/03_croatian_datasets_testing.ipynb. For gameplay, only wo
 - notebooks/02_croatian_wordlists.ipynb – Croatian (Cell 4)
 - notebooks/03_croatian_datasets_testing.ipynb – Croatian islands (filter to largest component)
 - notebooks/04_english_datasets_testing.ipynb – English islands (filter to largest component)
+- notebooks/05_english_5_letter_training.ipynb – BERT training data (wordladder_english5_*.csv)
+- notebooks/06_bert_wordladder_finetune.ipynb – BERT fine-tuning and inference
+
+See docs/trainingLog.md for the full training pipeline, hyperparameters, and run log.
