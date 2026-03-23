@@ -54,7 +54,7 @@ This file is a working memory reference for agents operating on this repo.
 - Croatian: notebooks/02_croatian_wordlists.ipynb (Cell 5 build, Cell 7 review gen, Cell 9 apply removals)
 - English islands: notebooks/04_english_datasets_testing.ipynb (filter to largest component)
 - Croatian islands: notebooks/03_croatian_datasets_testing.ipynb (filter to largest component)
-- BERT training data: notebooks/05_english_5_letter_training.ipynb (wordladder_english5_*.csv)
+- BERT training data: notebooks/05_english_5_letter_training.ipynb (distance regression CSVs: wordladder_english5_*.csv)
 
 ## Caveats
 - Counts can change if source files are updated upstream.

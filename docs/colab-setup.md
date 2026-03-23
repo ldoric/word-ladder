@@ -22,7 +22,7 @@ drive.mount('/content/drive')
 6. Clone the repo into your Drive (change `YOUR_USERNAME` to your GitHub username):
 
 ```python
-!git clone https://github.com/YOUR_USERNAME/word-ladder.git /content/drive/MyDrive/ColabProjects/word-ladder
+!git clone https://github.com/ldoric/word-ladder.git /content/drive/MyDrive/ColabProjects/word-ladder
 ```
 
 Create the parent folder first if needed:

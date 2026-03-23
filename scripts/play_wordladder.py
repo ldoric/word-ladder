@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Play Word Ladder using the fine-tuned BERT model.
+Play Word Ladder using the fine-tuned BERT distance-regression model.
 
-Generates a path from start → target by greedily picking the best-scoring
-neighbor at each step.
+At each step, scores every neighbor by predicted distance to the target
+and picks the closest (A* heuristic). Falls back to BFS if beam search fails.
 
 Usage:
-  python scripts/play_wordladder.py cat dog
+  python scripts/play_wordladder.py crane flame
+  python scripts/play_wordladder.py crane flame --beam 5
   python scripts/play_wordladder.py   # interactive mode
 """
 
@@ -22,7 +23,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODEL_PATH = PROJECT_ROOT / "models" / "bert_wordladder_5letter"
 VOCAB_PATH = PROJECT_ROOT / "data" / "islands" / "english_5_largest_island.txt"
-MAX_LENGTH = 64
+MAX_LENGTH = 32
 
 
 def load_vocab(path: Path) -> set[str]:
@@ -45,28 +46,30 @@ def one_letter_neighbors(w: str, vocab: set[str]) -> set[str]:
 
 
 def score_candidates(model, tokenizer, current: str, target: str, candidates: list, device):
-    """Score each candidate. Returns list of (candidate, score) sorted by score descending."""
-    text_a = f"{current} [SEP] {target}"
-    scores = []
+    """Predict distance from each candidate to target (batched). Returns (candidate, dist) sorted ascending."""
+    if not candidates:
+        return []
+
+    enc = tokenizer(
+        [cand for cand in candidates],
+        [target] * len(candidates),
+        truncation=True,
+        max_length=MAX_LENGTH,
+        padding="max_length",
+        return_tensors="pt",
+    )
+    enc = {k: v.to(device) for k, v in enc.items()}
 
     model.eval()
     with torch.no_grad():
-        for cand in candidates:
-            enc = tokenizer(
-                text_a,
-                cand,
-                truncation=True,
-                max_length=MAX_LENGTH,
-                padding="max_length",
-                return_tensors="pt",
-            )
-            enc = {k: v.to(device) for k, v in enc.items()}
-            out = model(**enc)
-            probs = torch.softmax(out.logits, dim=1)
-            score = probs[0, 1].item()  # P(label=1)
-            scores.append((cand, score))
+        out = model(**enc)
+        preds = out.logits.squeeze(-1).cpu().tolist()
 
-    return sorted(scores, key=lambda x: -x[1])
+    if isinstance(preds, float):
+        preds = [preds]
+
+    scores = list(zip(candidates, preds))
+    return sorted(scores, key=lambda x: x[1])
 
 
 def shortest_path_bfs(start: str, target: str, vocab: set[str]) -> list[str] | None:
@@ -86,20 +89,23 @@ def shortest_path_bfs(start: str, target: str, vocab: set[str]) -> list[str] | N
     return None
 
 
-def generate_path_beam(
+def generate_path_astar(
     model,
     tokenizer,
     vocab: set[str],
     start: str,
     target: str,
-    beam_size: int = 3,
+    max_expansions: int = 300,
     max_steps: int = 20,
     device=None,
 ) -> tuple[list[str] | None, str]:
     """
-    Beam search: keep top-k paths at each step. Returns (path, "beam"|"bfs"|None).
-    Falls back to BFS if all beams get stuck.
+    A* search with BERT predicted distance as heuristic.
+    Uses a priority queue so short paths with good heuristic values
+    are expanded before longer detours.
     """
+    import heapq
+
     if device is None:
         device = next(model.parameters()).device
 
@@ -109,30 +115,44 @@ def generate_path_beam(
     if start not in vocab or target not in vocab or len(start) != 5 or len(target) != 5:
         return None, None
 
-    beam = [([start], 1.0)]  # (path, last_step_score)
+    h0 = score_candidates(model, tokenizer, start, target, [start], device)[0][1]
+    h0 = max(h0, 0)
 
-    for _ in range(max_steps - 1):
-        candidates = []
-        for path, _ in beam:
-            if path[-1] == target:
-                return path, "beam"
-            visited = set(path)
-            neighbors = one_letter_neighbors(path[-1], vocab) - visited
-            if not neighbors:
-                continue
-            ranked = score_candidates(
-                model, tokenizer, path[-1], target, list(neighbors), device
-            )
-            for word, score in ranked[:beam_size]:
-                candidates.append((path + [word], score))
+    counter = 0
+    pq = [(h0, counter, [start])]
+    best_g = {start: 0}
+    expansions = 0
 
-        if not candidates:
-            break
-        candidates.sort(key=lambda x: -x[1])
-        beam = candidates[:beam_size]
+    while pq and expansions < max_expansions:
+        f, _, path = heapq.heappop(pq)
+        current = path[-1]
+        g_current = len(path) - 1
 
-    if beam and beam[0][0][-1] == target:
-        return beam[0][0], "beam"
+        if current == target:
+            return path, "astar"
+
+        if g_current >= max_steps:
+            continue
+
+        if g_current > best_g.get(current, float('inf')):
+            continue
+
+        neighbors = list(one_letter_neighbors(current, vocab))
+        if not neighbors:
+            continue
+
+        ranked = score_candidates(model, tokenizer, current, target, neighbors, device)
+        expansions += 1
+
+        for word, pred_dist in ranked:
+            g_new = g_current + 1
+            if g_new < best_g.get(word, float('inf')):
+                best_g[word] = g_new
+                h = max(pred_dist, 0)
+                f_score = g_new + h
+                counter += 1
+                heapq.heappush(pq, (f_score, counter, path + [word]))
+
     bfs_path = shortest_path_bfs(start, target, vocab)
     return (bfs_path, "bfs") if bfs_path else (None, None)
 
@@ -145,40 +165,13 @@ def generate_path(
     target: str,
     max_steps: int = 20,
     device=None,
-    fallback_bfs: bool = True,
-    beam_size: int = 3,
+    **kwargs,
 ) -> tuple[list[str] | None, str]:
-    """
-    Generate path using beam search (beam_size > 1) or greedy (beam_size=1).
-    Returns (path, "beam"|"model"|"bfs"|None).
-    """
-    if beam_size > 1:
-        return generate_path_beam(
-            model, tokenizer, vocab, start, target,
-            beam_size=beam_size, max_steps=max_steps, device=device
-        )
-    # Greedy (original logic)
-    if device is None:
-        device = next(model.parameters()).device
-    start, target = start.lower().strip(), target.lower().strip()
-    if start not in vocab or target not in vocab or len(start) != 5 or len(target) != 5:
-        return None, None
-    path, visited = [start], {start}
-    for _ in range(max_steps - 1):
-        if path[-1] == target:
-            return path, "model"
-        neighbors = one_letter_neighbors(path[-1], vocab) - visited
-        if not neighbors:
-            break
-        ranked = score_candidates(model, tokenizer, path[-1], target, list(neighbors), device)
-        path.append(ranked[0][0])
-        visited.add(path[-1])
-    if path[-1] == target:
-        return path, "model"
-    if fallback_bfs:
-        bfs_path = shortest_path_bfs(start, target, vocab)
-        return (bfs_path, "bfs") if bfs_path else (None, None)
-    return None, None
+    """Generate path using A* search with BERT heuristic. Falls back to BFS."""
+    return generate_path_astar(
+        model, tokenizer, vocab, start, target,
+        max_steps=max_steps, device=device,
+    )
 
 
 def main():
@@ -194,10 +187,6 @@ def main():
         "--vocab",
         default=str(VOCAB_PATH),
         help=f"Path to vocab (default: {VOCAB_PATH})",
-    )
-    parser.add_argument(
-        "--beam", type=int, default=3,
-        help="Beam size (default: 3). Use 1 for greedy.",
     )
     args = parser.parse_args()
 
@@ -236,12 +225,12 @@ def main():
 
     path, method = generate_path(
         model, tokenizer, vocab, args.start, args.target,
-        device=device, beam_size=args.beam,
+        device=device,
     )
 
     if path:
         label = f" ({method})" if method else ""
-        print(f"Path ({args.start} → {args.target}): {len(path)} steps{label}")
+        print(f"Path ({args.start} → {args.target}): {len(path)-1} steps{label}")
         print(" → ".join(path))
     else:
         print(f"No path found from '{args.start}' to '{args.target}'")
