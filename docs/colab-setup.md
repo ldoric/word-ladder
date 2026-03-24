@@ -92,9 +92,16 @@ Add and run a cell:
 ## 5. Run the notebooks
 
 1. Run **notebook 05** first (generates training CSVs)
-2. Run **notebook 06** second (fine-tunes RoBERTa)
+2. Run **notebook 06** second (fine-tunes BERT for distance regression)
 
 Use **Runtime → Run all** or run cells manually (Shift+Enter).
+
+### Run 7+ defaults (larger data)
+
+- **05:** ~**600k** rows, **4000** BFS sources, weighted sampling (more short graph distances). Data gen may take **tens of minutes** on Colab (more BFS passes).
+- **06:** **6 epochs**, cosine LR, 6% warmup. Training may take **several hours** on a T4 with 600k examples; if OOM, set `BATCH_SIZE = 16` in notebook 06.
+
+After changing 05 or 06, **always regenerate CSVs (05) before retraining (06)** so the model matches the new data.
 
 ---
 

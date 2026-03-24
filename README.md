@@ -1,13 +1,13 @@
 # Word Ladder
 
-A Python project for building and experimenting with word ladder data and logic, including BERT fine-tuning for next-step prediction.
+A Python project for building and experimenting with word ladder data and logic, including BERT fine-tuned for **distance regression** (A\* heuristic on the word graph).
 
 ## Current Status
 
 - **Datasets:** English and Croatian 4/5-letter word lists (strict + non-strict, island-filtered)
-- **Model:** BERT fine-tuned on English 5-letter ladders (val 82.8%, test 81.8%)
+- **Model:** BERT predicts BFS distance between two words; A\* search + optional BFS fallback (see `docs/trainingLog.md` for metrics)
 - **Model path:** `models/bert_wordladder_5letter/` (gitignored)
-- **Play:** `python scripts/play_wordladder.py START TARGET` — generates a path between 5-letter words
+- **Play:** `python scripts/play_wordladder.py START TARGET` — A\*-guided path between 5-letter words
 
 ## Notebooks
 
@@ -45,8 +45,7 @@ A Python project for building and experimenting with word ladder data and logic,
 
 **Play with a downloaded model:**
 ```powershell
-python scripts/play_wordladder.py saned scrip
-python scripts/play_wordladder.py saned scrip --beam 5   # wider beam
+python scripts/play_wordladder.py crane flame
 python scripts/play_wordladder.py   # interactive mode
 ```
 

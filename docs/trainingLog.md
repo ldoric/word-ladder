@@ -18,6 +18,18 @@ Everything we did for Word Ladder model training: data generation, BERT fine-tun
 
 **Colab:** Run notebooks 05 and 06 on Google Colab (Runtime → GPU) for faster training. `models/`, `outputs/`, `data/training/*.csv` are gitignored — regenerate on Colab or upload.  
 
+**Run 7+ notebook defaults (scale-up):**
+
+| Setting | Notebook 05 | Notebook 06 |
+|--------|-------------|-------------|
+| Data size | **600k** examples | — |
+| BFS sources | **4000** | — |
+| Sampling | **Weighted** (higher weight for graph distance ≤3, then ≤6, then ≤9) | — |
+| Training | — | **6 epochs**, **cosine** LR schedule, **warmup_ratio=0.06** |
+| Logging | — | `logging_steps=100` |
+
+**Do you need to rerun 05 and 06?** **Yes.** After these changes, run **05 first** (new CSVs), then **06** (train on those CSVs). Old **250k** CSVs + old checkpoints are **not** equivalent to Run 7 data/schedule.
+
 ---
 
 ## Phase 1: Binary Classification (Runs 1–4, archived)
@@ -66,9 +78,9 @@ Key advantages:
 ### Data generation (notebook 05)
 
 1. Build NetworkX graph on full vocab (9,902 words, 34k edges)
-2. Run single-source BFS from 800 random words → collect all pairwise distances
+2. Run single-source BFS from **N** random words → collect pairwise distances (Run 7+: **N = 4000**)
 3. Deduplicate symmetric pairs (dist(a,b) = dist(b,a))
-4. Subsample to 80k with balanced distance coverage (equal allocation per distance value)
+4. Subsample to **TARGET_EXAMPLES** with **weighted** distance coverage (Run 7+: **600k** rows; higher weight for short graph distances d≤3, ≤6, ≤9 — better for A\* neighbor ranking)
 5. Randomly swap word order (model learns symmetry)
 6. Split by pair; stratify by distance bin (short 1–3, medium 4–6, long 7+)
 7. 90% train, 5% val, 5% test
@@ -88,13 +100,14 @@ stone,heart,7
 
 ### Hyperparameters
 
-| Parameter | Value |
-|-----------|-------|
+| Parameter | Value (Run 7+) |
+|-----------|----------------|
 | MAX_LENGTH | 32 tokens |
-| BATCH_SIZE | 32 |
-| EPOCHS | 5 |
+| BATCH_SIZE | 32 (use 16 if Colab OOM) |
+| EPOCHS | **6** |
 | learning_rate | 2e-5 |
-| warmup_steps | 200 |
+| LR schedule | **cosine** |
+| warmup | **warmup_ratio=0.06** (replaces fixed warmup_steps) |
 | weight_decay | 0.01 |
 | SEED | 42 |
 
@@ -336,7 +349,8 @@ Batch eval (200 pairs) is logged above. Optional: repeat on GPU for faster runs,
 |--------|-----|
 | **More epochs (8–10)** | Train loss still dropping at epoch 5. |
 | **Lower learning rate (1e-5)** | Finer convergence in later epochs. |
-| **Even more data (500k)** | Diminishing returns likely, but could push MAE below 0.7. |
+| **Run 7: 600k + weighted sampling** | Implemented in notebook 05; retrain on Colab (see Overview table). |
+| **DeBERTa-v3-base (optional)** | Try after Run 7 if you want a stronger encoder (VRAM permitting). |
 
 ---
 
@@ -357,3 +371,4 @@ Batch eval (200 pairs) is logged above. Optional: repeat on GPU for faster runs,
 - **2025-03-22:** Replaced beam search with proper A\* (priority queue + batched inference). Results: 3/4 paths found by A\* at BFS-optimal length (miles→tanks 4 steps, crane→flame 4 steps). black→white still needs BFS fallback.
 - **2025-03-22:** Run 6 (250k examples, Colab T4): MAE 0.783 (down from 0.952), within ±1 step 72.5%. A\* still 3/4, 18 seconds on GPU.
 - **2025-03-23:** Batch eval (200 pairs, dist 3–10): 70% pure A\*, 30% BFS fallback, **89% optimal path length**, A\*-only avg length ratio 1.03 vs BFS optimal. ~5.3 h total (~95 s/pair — likely CPU eval).
+- **2025-03-23:** Run 7 prep: notebook 05 → **600k** examples, **4000** BFS sources, **weighted** distance sampling; notebook 06 → **6 epochs**, **cosine** LR + **warmup_ratio=0.06**. **Rerun 05 then 06 on Colab** for Run 7 model.
