@@ -227,7 +227,8 @@ pip install transformers torch pandas tqdm accelerate networkx
 | 6 (Colab T4) | EN 5-letter | bert-base-uncased | 250k | 5 | 0.781 | 0.783 | 1.096 | 72.5% | 3× more data |
 | 7 (Colab L4) | EN 5-letter | bert-base-uncased | 600k | 6 | **0.588** | **0.587** | **0.792** | **83.6%** | weighted sampling + cosine — **best EN 5-letter** |
 | 8 (Colab GPU) | EN 4-letter | bert-base-uncased | 600k | 6 | **0.311** | **0.308** | **0.430** | **97.3%** | 4-letter graph, same recipe — **best overall** |
-| 9 (Colab GPU) | **HR 5-letter** | bert-base-uncased | 600k | 6 | **0.451** | **0.450** | **0.601** | **91.0%** | Croatian graph, same recipe |
+| 9 (Colab GPU) | HR 5-letter | bert-base-uncased | 600k | 6 | 0.451 | 0.450 | 0.601 | 91.0% | Croatian 5-letter graph |
+| 10 (Colab GPU) | **HR 4-letter** | bert-base-uncased | 600k | 6 | **0.229** | **0.230** | **0.327** | **99.1%** | Croatian 4-letter — **best overall** |
 
 ### Run 5: Distance regression (2025-03-22) — Colab T4
 
@@ -568,6 +569,81 @@ Croatian outperforms English 5-letter despite `bert-base-uncased` having no Croa
 
 ---
 
+## Croatian 4-Letter Distance Regression
+
+### Overview
+
+Same pipeline, now on the **Croatian 4-letter** word-ladder graph. Notebooks 11 (data gen) + 12 (fine-tune).
+
+- **Graph:** 3,863 nodes (largest connected component from `croatian_4_largest_island.txt`)
+- **Playable:** 941 strict words (`croatian_4_strict_largest_island.txt`)
+- **Alphabet:** `abcdefghijklmnopqrstuvwxyzčćđšž` (31 letters)
+- **Data:** 600k examples, 3,500 BFS sources (~91% vocab coverage — highest of all models), weighted sampling
+- **Avg degree:** ~13.8 (densest graph of the four)
+
+### Run 10: Croatian 4-letter, 600k + weighted (2025-04-02) — Colab GPU
+
+| Epoch | Train Loss | Val Loss | Val MAE | Val RMSE |
+|-------|------------|----------|---------|----------|
+| 1 | 0.330 | 0.308 | 0.417 | 0.555 |
+| 2 | 0.202 | 0.184 | 0.317 | 0.429 |
+| 3 | 0.154 | 0.148 | 0.285 | 0.385 |
+| 4 | 0.124 | 0.124 | 0.250 | 0.352 |
+| 5 | 0.104 | 0.110 | 0.232 | 0.331 |
+| 6 | 0.096 | 0.108 | 0.229 | 0.329 |
+
+- **Training time:** ~9672 s (~**2.7 h**) (`train_samples_per_second` ~335.0)
+- **Validation:** MAE **0.2288**, RMSE **0.3287**, within ±1 step **99.06%**
+- **Test:** MAE **0.2304**, RMSE **0.3273**, within ±1 step **99.13%**
+
+**Cross-model comparison (all runs):**
+
+| Metric | EN 5L (R7) | EN 4L (R8) | HR 5L (R9) | HR 4L (R10) |
+|--------|------------|------------|------------|-------------|
+| Test MAE | 0.587 | 0.308 | 0.450 | **0.230** |
+| Test RMSE | 0.792 | 0.430 | 0.601 | **0.327** |
+| Within ±1 | 83.6% | 97.3% | 91.0% | **99.1%** |
+
+Croatian 4-letter achieves the lowest MAE and highest within-±1 across all models. The combination of dense graph (avg degree ~13.8), small vocab (3,863), and high BFS-source coverage (~91%) makes the distance function nearly perfectly learnable.
+
+### Run 10: Canonical path demos (all **astar**)
+
+| Start → Target | Steps | Method | Path |
+|----------------|-------|--------|------|
+| baka → ruka | 2 | astar | baka→raka→ruka |
+| kula → most | 4 | astar | kula→kola→kosa→kost→most |
+| grad → selo | 7 | astar | grad→graf→grof→groa→grla→gela→sela→selo |
+| more → zima | 5 | astar | more→mome→tome→time→tima→zima |
+
+All 4 demo paths found by A\* without BFS fallback.
+
+### Run 10: Batch evaluation — 200 pairs (GPU, seed 42)
+
+| Metric | EN 5L (R7) | EN 4L (R8) | HR 5L (R9) | HR 4L (R10) |
+|--------|------------|------------|------------|-------------|
+| **A\* without fallback** | 94.0% | 97.0% | 98.5% | **98.0%** |
+| **BFS fallback** | 6.0% | 3.0% | 1.5% | **2.0%** |
+| **Path length = BFS optimal** | 95.0% | 100.0% | 98.0% | **100.0%** |
+| **Avg A\* length ratio** | 1.01 | 1.00 | 1.00 | **1.00** |
+| **Wall time (200 pairs)** | ~238 s | ~4464 s | ~1774 s | ~2553 s (~12.8 s/pair) |
+
+**Breakdown by true BFS distance (Run 10):**
+
+| Dist | Count | A\* OK | Optimal | Avg A\* len |
+|------|-------|--------|---------|-------------|
+| 3 | 22 | 22 | 22 | 3.00 |
+| 4 | 33 | 33 | 33 | 4.00 |
+| 5 | 37 | 37 | 37 | 5.00 |
+| 6 | 18 | 18 | 18 | 6.00 |
+| 7 | 24 | 24 | 24 | 7.00 |
+| 8 | 33 | 31 | 33 | 8.00 |
+| 9 | 13 | 13 | 13 | 9.00 |
+| 10 | 20 | 18 | 20 | 10.00 |
+
+**Key result:** **100% optimal paths** (tied with English 4-letter) and **98% pure A\***. Even the 4 BFS-fallback cases return shortest paths. Perfect A\* length at every distance bucket except 8 and 10 (where 2 pairs each exhausted 300 expansions). The model's MAE of 0.23 means predictions are off by less than a quarter of a step on average — effectively perfect ranking for A\* neighbor selection.
+
+---
+
 ## 8. Next steps
 
 ### Evaluation
@@ -608,3 +684,5 @@ Run 7 batch eval on **GPU** is logged above. Optional: **500 pairs** for tighter
 - **2025-04-02:** Run 8 batch eval (200 pairs, dist 3–10): **97%** pure A\*, **3%** BFS, **100% optimal path length**, ratio **1.00**. ~22 s/pair on GPU.
 - **2025-04-02:** Created notebooks 09 (Croatian 5-letter data gen) and 10 (Croatian 5-letter BERT finetune).
 - **2025-04-02:** **Run 9 complete** (Colab GPU): Croatian 5-letter model — test MAE **0.450**, within ±1 **91.0%**, train ~**2.7 h**. Batch eval: **98.5%** pure A\*, **1.5%** BFS, **98.0%** optimal length, ratio **1.00**. Best A\* success rate across all models.
+- **2025-04-02:** Created notebooks 11 (Croatian 4-letter data gen) and 12 (Croatian 4-letter BERT finetune).
+- **2025-04-02:** **Run 10 complete** (Colab GPU): Croatian 4-letter model — test MAE **0.230**, within ±1 **99.1%**, train ~**2.7 h**. Batch eval: **98%** pure A\*, **2%** BFS, **100% optimal path length**, ratio **1.00**. Best MAE across all models. All 4 demo paths via **astar**.
