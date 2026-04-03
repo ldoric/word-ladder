@@ -5,7 +5,7 @@ A Python project for building and experimenting with word ladder data and logic,
 ## Current Status
 
 - **Datasets:** English and Croatian 4/5-letter word lists (strict + non-strict, island-filtered)
-- **Model:** BERT predicts BFS distance between two words; A\* search + optional BFS fallback (see `docs/trainingLog.md` for metrics)
+- **Model:** BERT distance regression (Run 7: ~600k examples, test MAE ~0.59, ~94% pure A\* on 200-pair eval — see `docs/trainingLog.md`)
 - **Model path:** `models/bert_wordladder_5letter/` (gitignored)
 - **Play:** `python scripts/play_wordladder.py START TARGET` — A\*-guided path between 5-letter words
 

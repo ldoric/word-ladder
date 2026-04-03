@@ -13,8 +13,12 @@ Everything we did for Word Ladder model training: data generation, BERT fine-tun
 - **Label:** shortest-path distance (integer, e.g. 3)  
 
 **Pipeline:**  
-1. Notebook 05: generate distance-regression training data (CSVs)  
-2. Notebook 06: fine-tune BERT, evaluate, save model  
+1. Notebook 05: generate distance-regression training data (CSVs) — 5-letter English  
+2. Notebook 06: fine-tune BERT, evaluate, save model — 5-letter English  
+3. Notebook 07: generate distance-regression training data (CSVs) — 4-letter English  
+4. Notebook 08: fine-tune BERT, evaluate, save model — 4-letter English  
+5. Notebook 09: generate distance-regression training data (CSVs) — 5-letter Croatian  
+6. Notebook 10: fine-tune BERT, evaluate, save model — 5-letter Croatian  
 
 **Colab:** Run notebooks 05 and 06 on Google Colab (Runtime → GPU) for faster training. `models/`, `outputs/`, `data/training/*.csv` are gitignored — regenerate on Colab or upload.  
 
@@ -28,7 +32,7 @@ Everything we did for Word Ladder model training: data generation, BERT fine-tun
 | Training | — | **6 epochs**, **cosine** LR schedule, **warmup_ratio=0.06** |
 | Logging | — | `logging_steps=100` |
 
-**Do you need to rerun 05 and 06?** **Yes.** After these changes, run **05 first** (new CSVs), then **06** (train on those CSVs). Old **250k** CSVs + old checkpoints are **not** equivalent to Run 7 data/schedule.
+**Run 7 trained model:** Use CSVs from notebook 05 (600k + weighted sampling) + checkpoint from notebook 06 as above. To **reproduce** Run 7, run **05 → 06** again; older **250k** checkpoints are superseded.
 
 ---
 
@@ -126,8 +130,12 @@ Path generation: beam search picks neighbors with lowest predicted distance at e
 
 ### Output
 
-- **Trained model:** `models/bert_wordladder_5letter/` (model + tokenizer)
-- **Checkpoints:** `outputs/bert_wordladder/` (per-epoch)
+- **Trained model (English 5-letter):** `models/bert_wordladder_5letter/` (model + tokenizer)
+- **Trained model (English 4-letter):** `models/bert_wordladder_4letter/` (model + tokenizer)
+- **Trained model (Croatian 5-letter):** `models/bert_wordladder_croatian5/` (model + tokenizer)
+- **Checkpoints (English 5-letter):** `outputs/bert_wordladder/` (per-epoch)
+- **Checkpoints (English 4-letter):** `outputs/bert_wordladder_4letter/` (per-epoch)
+- **Checkpoints (Croatian 5-letter):** `outputs/bert_wordladder_croatian5/` (per-epoch)
 
 ---
 
@@ -147,17 +155,25 @@ pip install transformers torch pandas tqdm accelerate networkx
 ## 4. How to Run
 
 ### Step 1: Generate data
-1. Run `notebooks/04_english_datasets_testing.ipynb` to produce island files (if not present)
-2. Run `notebooks/05_english_5_letter_training.ipynb` to generate CSVs
+1. Run `notebooks/04_english_datasets_testing.ipynb` to produce English island files (if not present)
+2. Run `notebooks/03_croatian_datasets_testing.ipynb` to produce Croatian island files (if not present)
+3. Run `notebooks/05_english_5_letter_training.ipynb` to generate English 5-letter CSVs
+4. Run `notebooks/07_english_4_letter_training.ipynb` to generate English 4-letter CSVs
+5. Run `notebooks/09_croatian_5_letter_training.ipynb` to generate Croatian 5-letter CSVs
 
 ### Step 2: Fine-tune
-1. Run `notebooks/06_bert_wordladder_finetune.ipynb`
+1. Run the corresponding fine-tune notebook:
+   - `notebooks/06_bert_wordladder_finetune.ipynb` (English 5-letter)
+   - `notebooks/08_bert_wordladder_4letter_finetune.ipynb` (English 4-letter)
+   - `notebooks/10_bert_wordladder_croatian5_finetune.ipynb` (Croatian 5-letter)
 2. Run the "Ensure accelerate" cell first if you get `ImportError` about accelerate
 3. Let training complete (~5–10 min on GPU, longer on CPU)
 
 ### Step 3: Use the model
-- Model saved to `models/bert_wordladder_5letter/`
-- Load with `AutoModelForSequenceClassification.from_pretrained("models/bert_wordladder_5letter")`
+- English 5-letter model: `models/bert_wordladder_5letter/`
+- English 4-letter model: `models/bert_wordladder_4letter/`
+- Croatian 5-letter model: `models/bert_wordladder_croatian5/`
+- Load with `AutoModelForSequenceClassification.from_pretrained("models/bert_wordladder_...")`
 - Use `score_candidates()` for inference
 
 ---
@@ -198,10 +214,12 @@ pip install transformers torch pandas tqdm accelerate networkx
 
 ### Phase 2 runs (distance regression)
 
-| Run | Model | Examples | Epochs | Val MAE | Test MAE | Test RMSE | Within ±1 | Notes |
-|-----|-------|----------|--------|---------|----------|-----------|-----------|-------|
-| 5 (Colab GPU) | bert-base-uncased | 80k | 5 | 0.945 | 0.952 | 1.320 | 63.3% | first distance regression run |
-| 6 (Colab GPU) | bert-base-uncased | 250k | 5 | **0.781** | **0.783** | 1.096 | **72.5%** | 3× more data — best so far |
+| Run | Graph | Model | Examples | Epochs | Val MAE | Test MAE | Test RMSE | Within ±1 | Notes |
+|-----|-------|-------|----------|--------|---------|----------|-----------|-----------|-------|
+| 5 (Colab GPU) | 5-letter | bert-base-uncased | 80k | 5 | 0.945 | 0.952 | 1.320 | 63.3% | first distance regression run |
+| 6 (Colab T4) | 5-letter | bert-base-uncased | 250k | 5 | 0.781 | 0.783 | 1.096 | 72.5% | 3× more data |
+| 7 (Colab L4) | 5-letter | bert-base-uncased | 600k | 6 | **0.588** | **0.587** | **0.792** | **83.6%** | weighted sampling + cosine — **best 5-letter** |
+| 8 (Colab GPU) | **4-letter** | bert-base-uncased | 600k | 6 | **0.311** | **0.308** | **0.430** | **97.3%** | 4-letter graph, same recipe — **best overall** |
 
 ### Run 5: Distance regression (2025-03-22) — Colab T4
 
@@ -335,22 +353,152 @@ Random pairs from `english_5_strict_largest_island.txt` with **BFS distance 3–
 - **Ratio 1.03 on A\* successes:** When A\* reaches the target without fallback, average length is only ~3% above the true shortest — strong ranking / guidance, not random walk.
 - **Latency:** ~95 s/pair suggests evaluation ran on **CPU** or without heavy batching across pairs; the 4-path Colab GPU demo was ~18 s total. For large studies, run the eval cell on **GPU** or lower `N_PAIRS` / raise `max_expansions` only where needed.
 
+### Run 7: 600k + weighted sampling (2025-03-23) — Colab **L4**
+
+Notebook 05: **600k** rows, **4000** BFS sources, **weighted** distance sampling. Notebook 06: **6 epochs**, cosine LR, **warmup_ratio=0.06**.
+
+| Epoch | Train Loss | Val Loss | Val MAE | Val RMSE |
+|-------|------------|----------|---------|----------|
+| 1 | 1.85 | 1.59 | 0.935 | 1.262 |
+| 2 | 1.13 | 1.08 | 0.774 | 1.040 |
+| 3 | 0.89 | 0.81 | 0.671 | 0.900 |
+| 4 | 0.66 | 0.72 | 0.629 | 0.847 |
+| 5 | 0.51 | 0.65 | 0.596 | 0.808 |
+| 6 | 0.47 | 0.64 | 0.588 | 0.799 |
+
+- **Training time:** ~9715 s (~**2.7 h**) on Colab L4 (`train_samples_per_second` ~333.5)
+- **Manual eval (notebook):** Val MAE **0.588**, RMSE **0.799**; Test MAE **0.587**, RMSE **0.792**, within ±1 step **83.4%** / **83.6%**
+
+**Improvement over Run 6 (250k → Run 7):**
+
+| Metric | Run 6 | Run 7 | Δ |
+|--------|-------|-------|---|
+| Test MAE | 0.783 | 0.587 | −0.196 (~25% relative) |
+| Test RMSE | 1.096 | 0.792 | −0.304 |
+| Within ±1 | 72.5% | 83.6% | +11.1 pp |
+
+### Run 7: Batch evaluation — 200 pairs (GPU, seed 42)
+
+| Metric | Run 6 (CPU) | Run 7 (L4 GPU) |
+|--------|-------------|----------------|
+| **A\* without fallback** | 70.0% | **94.0%** |
+| **BFS fallback** | 30.0% | **6.0%** |
+| **Path length = BFS optimal** | 89.0% | **95.0%** |
+| **Avg A\* length ratio** | 1.03 | **1.01** |
+| **Wall time (200 pairs)** | ~5.3 h | **~238 s** (~1.19 s/pair) |
+
+**Breakdown by true BFS distance (Run 7):**
+
+| Dist | Count | A\* OK | Optimal | Avg A\* len |
+|------|-------|--------|---------|-------------|
+| 3 | 4 | 4 | 4 | 3.00 |
+| 4 | 13 | 13 | 13 | 4.00 |
+| 5 | 24 | 24 | 24 | 5.00 |
+| 6 | 41 | 41 | 39 | 6.05 |
+| 7 | 37 | 36 | 32 | 7.14 |
+| 8 | 31 | 27 | 31 | 8.00 |
+| 9 | 33 | 31 | 31 | 9.10 |
+| 10 | 17 | 12 | 16 | 10.08 |
+
+### Run 7: Canonical path demos (all **astar**, 4 steps where BFS-optimal is 4)
+
+| Start → Target | Steps | Method |
+|----------------|-------|--------|
+| miles → tanks | 4 | astar |
+| light → right | 1 | astar |
+| crane → flame | 4 | astar |
+| black → white | 7 | astar |
+
+**black → white** no longer requires BFS fallback (contrast Run 6).
+
+**Thesis-ready summary:** Run 7 shows that **scaling data + emphasizing short graph distances + cosine schedule** sharply improves both **regression quality** (MAE ~0.59) and **A\* reliability** (94% pure A\*, 95% shortest-length paths on the 200-pair benchmark).
+
+---
+
+## English 4-Letter Distance Regression
+
+### Overview
+
+Same pipeline as 5-letter (Phase 2), but on the **4-letter English** word-ladder graph. Notebooks 07 (data gen) + 08 (fine-tune).
+
+- **Graph:** 5,643 nodes (largest connected component from `english_4_largest_island.txt`)
+- **Playable:** 3,155 strict words (`english_4_strict_largest_island.txt`)
+- **Data:** 600k examples, 4,000 BFS sources, weighted sampling (same recipe as 5-letter Run 7)
+- **Distance range:** 1–15, mean 5.02
+
+### Run 8: 4-letter, 600k + weighted (2025-04-02) — Colab GPU
+
+| Epoch | Train Loss | Val Loss | Val MAE | Val RMSE |
+|-------|------------|----------|---------|----------|
+| 1 | 0.530 | 0.461 | 0.514 | 0.679 |
+| 2 | 0.319 | 0.293 | 0.407 | 0.541 |
+| 3 | 0.230 | 0.235 | 0.360 | 0.484 |
+| 4 | 0.180 | 0.206 | 0.333 | 0.454 |
+| 5 | 0.151 | 0.183 | 0.313 | 0.428 |
+| 6 | 0.128 | 0.182 | 0.311 | 0.426 |
+
+- **Training time:** ~9743 s (~**2.7 h**) (`train_samples_per_second` ~332.6)
+- **Validation:** MAE **0.3107**, RMSE **0.4262**, within ±1 step **97.12%**
+- **Test:** MAE **0.3082**, RMSE **0.4304**, within ±1 step **97.26%**
+
+**Comparison with 5-letter Run 7:**
+
+| Metric | 5-letter Run 7 | 4-letter Run 8 | Δ |
+|--------|----------------|----------------|---|
+| Test MAE | 0.587 | **0.308** | −0.279 (~48% relative) |
+| Test RMSE | 0.792 | **0.430** | −0.362 |
+| Within ±1 | 83.6% | **97.3%** | +13.7 pp |
+
+The 4-letter model is substantially better — smaller, denser graph with higher BFS-source coverage (71% of vocab vs 40%).
+
+### Run 8: Canonical path demos (all **astar**)
+
+| Start → Target | Steps | Method |
+|----------------|-------|--------|
+| cold → warm | 4 | astar |
+| love → hate | 3 | astar |
+| dark → pale | 3 | astar |
+| head → tail | 4 | astar |
+
+All 4 demo paths found by A\* without BFS fallback.
+
+### Run 8: Batch evaluation — 200 pairs (GPU, seed 42)
+
+| Metric | 5-letter Run 7 | 4-letter Run 8 |
+|--------|----------------|----------------|
+| **A\* without fallback** | 94.0% | **97.0%** |
+| **BFS fallback** | 6.0% | **3.0%** |
+| **Path length = BFS optimal** | 95.0% | **100.0%** |
+| **Avg A\* length ratio** | 1.01 | **1.00** |
+| **Wall time (200 pairs)** | ~238 s | ~4464 s (~22 s/pair) |
+
+**Breakdown by true BFS distance (Run 8):**
+
+| Dist | Count | A\* OK | Optimal | Avg A\* len |
+|------|-------|--------|---------|-------------|
+| 3 | 25 | 25 | 25 | 3.00 |
+| 4 | 57 | 57 | 57 | 4.00 |
+| 5 | 53 | 51 | 53 | 5.00 |
+| 6 | 51 | 47 | 51 | 6.00 |
+| 7 | 12 | 12 | 12 | 7.00 |
+| 8 | 2 | 2 | 2 | 8.00 |
+
+**Key result:** **100% of paths are BFS-optimal length** — even the 6 BFS-fallback cases return shortest paths. A\* alone solves 97% without fallback. Every A\* success produces a path at exactly the optimal length (ratio 1.00). The 4-letter graph's denser connectivity and the model's low MAE (0.308) make the heuristic near-perfect for neighbor ranking.
+
 ---
 
 ## 8. Next steps
 
 ### Evaluation
 
-Batch eval (200 pairs) is logged above. Optional: repeat on GPU for faster runs, or extend to 500 pairs for tighter confidence intervals.
+Run 7 batch eval on **GPU** is logged above. Optional: **500 pairs** for tighter CIs; same seed for comparability.
 
 ### Further training improvements (optional)
 
 | Change | Why |
 |--------|-----|
-| **More epochs (8–10)** | Train loss still dropping at epoch 5. |
-| **Lower learning rate (1e-5)** | Finer convergence in later epochs. |
-| **Run 7: 600k + weighted sampling** | Implemented in notebook 05; retrain on Colab (see Overview table). |
-| **DeBERTa-v3-base (optional)** | Try after Run 7 if you want a stronger encoder (VRAM permitting). |
+| **Continuation fine-tune** | Load Run 7 checkpoint, 2–3 epochs, LR ~1e-5, if val still improving. |
+| **DeBERTa-v3-base** | Only if chasing last points; Run 7 is already strong on BERT-base. |
 
 ---
 
@@ -371,4 +519,9 @@ Batch eval (200 pairs) is logged above. Optional: repeat on GPU for faster runs,
 - **2025-03-22:** Replaced beam search with proper A\* (priority queue + batched inference). Results: 3/4 paths found by A\* at BFS-optimal length (miles→tanks 4 steps, crane→flame 4 steps). black→white still needs BFS fallback.
 - **2025-03-22:** Run 6 (250k examples, Colab T4): MAE 0.783 (down from 0.952), within ±1 step 72.5%. A\* still 3/4, 18 seconds on GPU.
 - **2025-03-23:** Batch eval (200 pairs, dist 3–10): 70% pure A\*, 30% BFS fallback, **89% optimal path length**, A\*-only avg length ratio 1.03 vs BFS optimal. ~5.3 h total (~95 s/pair — likely CPU eval).
-- **2025-03-23:** Run 7 prep: notebook 05 → **600k** examples, **4000** BFS sources, **weighted** distance sampling; notebook 06 → **6 epochs**, **cosine** LR + **warmup_ratio=0.06**. **Rerun 05 then 06 on Colab** for Run 7 model.
+- **2025-03-23:** Run 7 prep: notebook 05 → **600k** examples, **4000** BFS sources, **weighted** distance sampling; notebook 06 → **6 epochs**, **cosine** LR + **warmup_ratio=0.06**.
+- **2025-03-23:** **Run 7 complete** (Colab L4): test MAE **0.587**, within ±1 **83.6%**, train ~**2.7 h**. Batch eval: **94%** pure A\*, **6%** BFS, **95%** optimal length, **~4 min** for 200 pairs on GPU. All four demo paths including black→white via **astar**.
+- **2025-04-02:** Created notebooks 07 (4-letter data gen) and 08 (4-letter BERT finetune), mirroring 05/06 pipeline.
+- **2025-04-02:** Notebook 07: 600k examples from 4-letter graph (5,643 nodes), 4,000 BFS sources, weighted sampling. Distance range 1–15, mean 5.02.
+- **2025-04-02:** **Run 8 complete** (Colab GPU): 4-letter model — test MAE **0.308**, within ±1 **97.3%**, train ~**2.7 h**. All 4 demo paths via **astar**. ~48% lower MAE than 5-letter Run 7.
+- **2025-04-02:** Run 8 batch eval (200 pairs, dist 3–10): **97%** pure A\*, **3%** BFS, **100% optimal path length**, ratio **1.00**. ~22 s/pair on GPU.
