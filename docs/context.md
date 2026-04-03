@@ -57,6 +57,7 @@ This file is a working memory reference for agents operating on this repo.
 - BERT training data (English 5-letter): notebooks/05_english_5_letter_training.ipynb (distance regression CSVs: wordladder_english5_*.csv)
 - BERT training data (English 4-letter): notebooks/07_english_4_letter_training.ipynb (distance regression CSVs: wordladder_english4_*.csv)
 - BERT training data (Croatian 5-letter): notebooks/09_croatian_5_letter_training.ipynb (distance regression CSVs: wordladder_croatian5_*.csv)
+- BERT training data (Croatian 4-letter): notebooks/11_croatian_4_letter_training.ipynb (distance regression CSVs: wordladder_croatian4_*.csv)
 
 ## Caveats
 - Counts can change if source files are updated upstream.

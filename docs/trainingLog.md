@@ -19,6 +19,8 @@ Everything we did for Word Ladder model training: data generation, BERT fine-tun
 4. Notebook 08: fine-tune BERT, evaluate, save model — 4-letter English  
 5. Notebook 09: generate distance-regression training data (CSVs) — 5-letter Croatian  
 6. Notebook 10: fine-tune BERT, evaluate, save model — 5-letter Croatian  
+7. Notebook 11: generate distance-regression training data (CSVs) — 4-letter Croatian  
+8. Notebook 12: fine-tune BERT, evaluate, save model — 4-letter Croatian  
 
 **Colab:** Run notebooks 05 and 06 on Google Colab (Runtime → GPU) for faster training. `models/`, `outputs/`, `data/training/*.csv` are gitignored — regenerate on Colab or upload.  
 
@@ -136,6 +138,8 @@ Path generation: beam search picks neighbors with lowest predicted distance at e
 - **Checkpoints (English 5-letter):** `outputs/bert_wordladder/` (per-epoch)
 - **Checkpoints (English 4-letter):** `outputs/bert_wordladder_4letter/` (per-epoch)
 - **Checkpoints (Croatian 5-letter):** `outputs/bert_wordladder_croatian5/` (per-epoch)
+- **Trained model (Croatian 4-letter):** `models/bert_wordladder_croatian4/` (model + tokenizer)
+- **Checkpoints (Croatian 4-letter):** `outputs/bert_wordladder_croatian4/` (per-epoch)
 
 ---
 
@@ -160,12 +164,14 @@ pip install transformers torch pandas tqdm accelerate networkx
 3. Run `notebooks/05_english_5_letter_training.ipynb` to generate English 5-letter CSVs
 4. Run `notebooks/07_english_4_letter_training.ipynb` to generate English 4-letter CSVs
 5. Run `notebooks/09_croatian_5_letter_training.ipynb` to generate Croatian 5-letter CSVs
+6. Run `notebooks/11_croatian_4_letter_training.ipynb` to generate Croatian 4-letter CSVs
 
 ### Step 2: Fine-tune
 1. Run the corresponding fine-tune notebook:
    - `notebooks/06_bert_wordladder_finetune.ipynb` (English 5-letter)
    - `notebooks/08_bert_wordladder_4letter_finetune.ipynb` (English 4-letter)
    - `notebooks/10_bert_wordladder_croatian5_finetune.ipynb` (Croatian 5-letter)
+   - `notebooks/12_bert_wordladder_croatian4_finetune.ipynb` (Croatian 4-letter)
 2. Run the "Ensure accelerate" cell first if you get `ImportError` about accelerate
 3. Let training complete (~5–10 min on GPU, longer on CPU)
 
@@ -173,6 +179,7 @@ pip install transformers torch pandas tqdm accelerate networkx
 - English 5-letter model: `models/bert_wordladder_5letter/`
 - English 4-letter model: `models/bert_wordladder_4letter/`
 - Croatian 5-letter model: `models/bert_wordladder_croatian5/`
+- Croatian 4-letter model: `models/bert_wordladder_croatian4/`
 - Load with `AutoModelForSequenceClassification.from_pretrained("models/bert_wordladder_...")`
 - Use `score_candidates()` for inference
 
@@ -216,10 +223,11 @@ pip install transformers torch pandas tqdm accelerate networkx
 
 | Run | Graph | Model | Examples | Epochs | Val MAE | Test MAE | Test RMSE | Within ±1 | Notes |
 |-----|-------|-------|----------|--------|---------|----------|-----------|-----------|-------|
-| 5 (Colab GPU) | 5-letter | bert-base-uncased | 80k | 5 | 0.945 | 0.952 | 1.320 | 63.3% | first distance regression run |
-| 6 (Colab T4) | 5-letter | bert-base-uncased | 250k | 5 | 0.781 | 0.783 | 1.096 | 72.5% | 3× more data |
-| 7 (Colab L4) | 5-letter | bert-base-uncased | 600k | 6 | **0.588** | **0.587** | **0.792** | **83.6%** | weighted sampling + cosine — **best 5-letter** |
-| 8 (Colab GPU) | **4-letter** | bert-base-uncased | 600k | 6 | **0.311** | **0.308** | **0.430** | **97.3%** | 4-letter graph, same recipe — **best overall** |
+| 5 (Colab GPU) | EN 5-letter | bert-base-uncased | 80k | 5 | 0.945 | 0.952 | 1.320 | 63.3% | first distance regression run |
+| 6 (Colab T4) | EN 5-letter | bert-base-uncased | 250k | 5 | 0.781 | 0.783 | 1.096 | 72.5% | 3× more data |
+| 7 (Colab L4) | EN 5-letter | bert-base-uncased | 600k | 6 | **0.588** | **0.587** | **0.792** | **83.6%** | weighted sampling + cosine — **best EN 5-letter** |
+| 8 (Colab GPU) | EN 4-letter | bert-base-uncased | 600k | 6 | **0.311** | **0.308** | **0.430** | **97.3%** | 4-letter graph, same recipe — **best overall** |
+| 9 (Colab GPU) | **HR 5-letter** | bert-base-uncased | 600k | 6 | **0.451** | **0.450** | **0.601** | **91.0%** | Croatian graph, same recipe |
 
 ### Run 5: Distance regression (2025-03-22) — Colab T4
 
@@ -487,6 +495,79 @@ All 4 demo paths found by A\* without BFS fallback.
 
 ---
 
+## Croatian 5-Letter Distance Regression
+
+### Overview
+
+Same pipeline as English, but on the **Croatian 5-letter** word-ladder graph. Notebooks 09 (data gen) + 10 (fine-tune).
+
+- **Graph:** 11,052 nodes (largest connected component from `croatian_5_largest_island.txt`)
+- **Playable:** 1,448 strict words (`croatian_5_strict_largest_island.txt`)
+- **Alphabet:** `abcdefghijklmnopqrstuvwxyzčćđšž` (31 letters). Digraphs `lj`, `nj`, `dž` are treated as two separate characters (consistent with how all word files store 5-character words).
+- **Data:** 600k examples, 4,000 BFS sources, weighted sampling (same recipe as English)
+- **Tokenizer note:** `bert-base-uncased` was not pretrained on Croatian. Croatian characters (č, ć, đ, š, ž) are split into subword/character tokens. The model learns distance patterns from these during fine-tuning.
+
+### Run 9: Croatian 5-letter, 600k + weighted (2025-04-02) — Colab GPU
+
+| Epoch | Train Loss | Val Loss | Val MAE | Val RMSE |
+|-------|------------|----------|---------|----------|
+| 1 | 1.037 | 0.858 | 0.690 | 0.926 |
+| 2 | 0.620 | 0.604 | 0.589 | 0.777 |
+| 3 | 0.464 | 0.475 | 0.522 | 0.689 |
+| 4 | 0.354 | 0.389 | 0.466 | 0.624 |
+| 5 | 0.295 | 0.379 | 0.462 | 0.616 |
+| 6 | 0.264 | 0.363 | 0.451 | 0.603 |
+
+- **Training time:** ~9540 s (~**2.7 h**) (`train_samples_per_second` ~339.6)
+- **Validation:** MAE **0.4512**, RMSE **0.6028**, within ±1 step **91.08%**
+- **Test:** MAE **0.4504**, RMSE **0.6006**, within ±1 step **90.96%**
+
+**Cross-language comparison:**
+
+| Metric | EN 5-letter (Run 7) | HR 5-letter (Run 9) | EN 4-letter (Run 8) |
+|--------|---------------------|---------------------|---------------------|
+| Test MAE | 0.587 | **0.450** | 0.308 |
+| Test RMSE | 0.792 | **0.601** | 0.430 |
+| Within ±1 | 83.6% | **91.0%** | 97.3% |
+
+Croatian outperforms English 5-letter despite `bert-base-uncased` having no Croatian pretraining — likely because the Croatian graph has more nodes (11,052 vs 9,902) with similar avg degree, giving richer training signal.
+
+### Run 9: Canonical path demos
+
+| Start → Target | Steps | Method | Notes |
+|----------------|-------|--------|-------|
+| banka → arena | 6 | astar | banka→danka→daska→drska→dreka→drena→arena |
+| bajka → balet | 11 | bfs | A\* exhausted expansions, BFS fallback (long path) |
+| autor → badem | 6 | astar | autor→autom→butom→batom→barom→barem→badem |
+| kutak → blato | — | — | no path found (different component or word not in vocab) |
+
+### Run 9: Batch evaluation — 200 pairs (GPU, seed 42)
+
+| Metric | EN 5-letter Run 7 | HR 5-letter Run 9 | EN 4-letter Run 8 |
+|--------|-------------------|-------------------|-------------------|
+| **A\* without fallback** | 94.0% | **98.5%** | 97.0% |
+| **BFS fallback** | 6.0% | **1.5%** | 3.0% |
+| **Path length = BFS optimal** | 95.0% | **98.0%** | 100.0% |
+| **Avg A\* length ratio** | 1.01 | **1.00** | 1.00 |
+| **Wall time (200 pairs)** | ~238 s | ~1774 s (~8.9 s/pair) | ~4464 s |
+
+**Breakdown by true BFS distance (Run 9):**
+
+| Dist | Count | A\* OK | Optimal | Avg A\* len |
+|------|-------|--------|---------|-------------|
+| 3 | 3 | 3 | 3 | 3.00 |
+| 4 | 8 | 8 | 8 | 4.00 |
+| 5 | 14 | 14 | 14 | 5.00 |
+| 6 | 22 | 22 | 22 | 6.00 |
+| 7 | 34 | 34 | 34 | 7.00 |
+| 8 | 38 | 37 | 37 | 8.03 |
+| 9 | 42 | 41 | 40 | 9.05 |
+| 10 | 39 | 38 | 38 | 10.05 |
+
+**Key result:** The Croatian model achieves **98.5% pure A\*** and **98.0% optimal paths** — the best A\* success rate across all models. Only 3 out of 200 pairs needed BFS fallback. Even at distances 8–10, A\* almost always finds the target within 300 expansions. The length ratio of 1.00 means A\* paths are essentially always shortest-length.
+
+---
+
 ## 8. Next steps
 
 ### Evaluation
@@ -525,3 +606,5 @@ Run 7 batch eval on **GPU** is logged above. Optional: **500 pairs** for tighter
 - **2025-04-02:** Notebook 07: 600k examples from 4-letter graph (5,643 nodes), 4,000 BFS sources, weighted sampling. Distance range 1–15, mean 5.02.
 - **2025-04-02:** **Run 8 complete** (Colab GPU): 4-letter model — test MAE **0.308**, within ±1 **97.3%**, train ~**2.7 h**. All 4 demo paths via **astar**. ~48% lower MAE than 5-letter Run 7.
 - **2025-04-02:** Run 8 batch eval (200 pairs, dist 3–10): **97%** pure A\*, **3%** BFS, **100% optimal path length**, ratio **1.00**. ~22 s/pair on GPU.
+- **2025-04-02:** Created notebooks 09 (Croatian 5-letter data gen) and 10 (Croatian 5-letter BERT finetune).
+- **2025-04-02:** **Run 9 complete** (Colab GPU): Croatian 5-letter model — test MAE **0.450**, within ±1 **91.0%**, train ~**2.7 h**. Batch eval: **98.5%** pure A\*, **1.5%** BFS, **98.0%** optimal length, ratio **1.00**. Best A\* success rate across all models.
