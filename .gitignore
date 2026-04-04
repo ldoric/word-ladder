@@ -38,10 +38,11 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Environment files
+# Environment files (keep real keys out of git)
 .env
 .env.*
 !.env.example
+!.env.local.example
 
 # Logs
 *.log

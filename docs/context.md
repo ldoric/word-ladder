@@ -58,6 +58,8 @@ This file is a working memory reference for agents operating on this repo.
 - BERT training data (English 4-letter): notebooks/07_english_4_letter_training.ipynb (distance regression CSVs: wordladder_english4_*.csv)
 - BERT training data (Croatian 5-letter): notebooks/09_croatian_5_letter_training.ipynb (distance regression CSVs: wordladder_croatian5_*.csv)
 - BERT training data (Croatian 4-letter): notebooks/11_croatian_4_letter_training.ipynb (distance regression CSVs: wordladder_croatian4_*.csv)
+- LLM vs BERT benchmark: notebooks/13_llm_vs_bert_wordladder.ipynb — set `GRAPH_PRESET`, `GPT_MODEL`, optional Gemini; `EVAL_SET_NAME=None` auto-picks `data/eval_sets/<name>.csv` per preset (`english_4` → `test4english`, etc.) and creates it if missing; API keys in `.env.local` — see docs/colab-setup.md
+- LLM comparison log (benchmark results): docs/comparing-to-llms.md
 
 ## Caveats
 - Counts can change if source files are updated upstream.

@@ -151,3 +151,22 @@ if ckpts:
         shutil.copy(f, SAVE / f.name)
     print("Copied from", ckpts[-1], "- zip models/bert_wordladder_5letter and download")
 ```
+
+---
+
+## OpenAI API key (notebook 13 — LLM vs BERT)
+
+**Local (recommended):**
+
+1. Copy the example file in the repo root:
+   - `cp .env.local.example .env.local` (macOS/Linux)
+   - Or copy `.env.local.example` to `.env.local` in File Explorer (Windows).
+2. Edit `.env.local` and set `OPENAI_API_KEY=sk-...`. For **Gemini** in notebook 13, add `GEMINI_API_KEY=...` (Google AI Studio).
+3. `.env.local` is **gitignored**; only `.env.local.example` (no real secret) is tracked.
+
+Notebook 13 loads `.env.local` via `python-dotenv` before reading API keys from the environment. You can also set variables in the shell instead:
+
+- PowerShell: `$env:OPENAI_API_KEY="sk-..."` ; `$env:GEMINI_API_KEY="..."`
+- bash: `export OPENAI_API_KEY=sk-...` ; `export GEMINI_API_KEY=...`
+
+**Colab:** use a Colab secret or paste into the config cell (`OPENAI_API_KEY` / `GEMINI_API_KEY`) for that session only — do not save the notebook with secrets in it.
