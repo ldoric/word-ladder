@@ -81,6 +81,16 @@ Typical failure modes: **invalid one-letter transitions** (model invents interme
 - **Latency vs quality:** GPT is much faster per query but **unreliable** on this task at the tested settings; BERT is slower on CPU but **sound** for your game rules.
 - **Fairness:** Compare at equal validation (graph vocab + one-letter checks) for thesis claims; relaxed LLM scoring is optional and labels should say it is not “in-game” valid.
 
+### Thesis note — supplying the island does not make LLM vs BERT an apples-to-apples “game”
+
+A natural way to level the playing field is to give the LLM **the same allowed vocabulary** as the benchmark (e.g. `data/islands/english_5_largest_island.txt`) plus the start/target pairs (e.g. `data/eval_sets/test5english.csv`). With that information, a capable assistant can **load the words**, **build the one-letter-edit graph**, and **run BFS** (or another shortest-path routine) to recover ladders that are **valid on the graph** and **shortest**, matching the `bfs_optimal` column. Those answers are **computed by search**, not copied from a hidden answer file and not reliably produced by unstructured verbal “word ladder play” alone.
+
+**Why that still mismatches your models:** Your pipeline (e.g. BERT + A\* with BFS fallback) is **playing the constrained game** under learned signals; handing the full island into a chat context and obtaining shortest ladders often reduces to **“graph + BFS in the loop”** — which is **optimal search with an oracle lexicon**, not the same task as “generate the next word under rules without enumerating the whole graph.” So:
+
+- **LLM + island + explicit BFS (or equivalent code):** sound shortest paths, but the **capability under test** slides toward **algorithm execution**, not raw language-model ladder skill.
+- **LLM without search or without full graph:** can be **fast** and sometimes plausible, but **rule violations** and **non-words** are common in the notebook runs above — and you cannot **prove** optimality or full validity without the vocabulary and a checker/search.
+- **For thesis framing:** state clearly **what is compared** — e.g. neural heuristic + search vs. **prompted text generation** vs. **retrieval/oracle vocab + classical search**. Mixing the last with the first without labeling it conflates **“who can run BFS”** with **“who can play the game.”**
+
 ---
 
 ## Run: English 5-letter — GPT `gpt-5.4` (full) vs BERT
@@ -401,6 +411,7 @@ So Gemini **beats GPT 5.4 on relaxed validity** on this slice (one success vs no
 
 ## Changelog
 
+- **2026-04-06:** Added thesis note on **fairness when the island lexicon is supplied** — optimal ladders via explicit BFS/graph search vs “playing” the game like BERT + guided search; clarify what capability is actually being measured.
 - **2026-04-04:** English 5-letter, 20 pairs, `gpt-5.4-mini` vs BERT — metrics, BERT head sample, and GPT failure table logged above.
 - **2026-04-04:** Same pairs, **`gpt-5.4`** (full) — 0% valid, failure sample, mini vs full comparison.
 - **2026-04-04:** Same pairs, **`gpt-5.4`** + **`gemini-2.5-flash`** — three-way summary, Gemini diagnostics and failure sample.
