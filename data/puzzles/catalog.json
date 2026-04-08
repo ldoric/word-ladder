@@ -1,0 +1,829 @@
+{
+  "schemaVersion": 1,
+  "puzzles": [
+    {
+      "id": "pint-pole",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 3,
+      "subtitle": "PINT → POLE",
+      "solution": [
+        "PINT",
+        "PINE",
+        "PILE",
+        "POLE"
+      ]
+    },
+    {
+      "id": "bait-paws",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "BAIT → PAWS",
+      "solution": [
+        "BAIT",
+        "BAIL",
+        "BAWL",
+        "PAWL",
+        "PAWS"
+      ]
+    },
+    {
+      "id": "subs-yowl",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "SUBS → YOWL",
+      "solution": [
+        "SUBS",
+        "SOBS",
+        "SOWS",
+        "YOWS",
+        "YOWL"
+      ]
+    },
+    {
+      "id": "soap-bens",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 5,
+      "subtitle": "SOAP → BENS",
+      "solution": [
+        "SOAP",
+        "SOAR",
+        "SEAR",
+        "SEAS",
+        "SENS",
+        "BENS"
+      ]
+    },
+    {
+      "id": "moon-free",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "MOON → FREE",
+      "solution": [
+        "MOON",
+        "MOOT",
+        "TOOT",
+        "TROT",
+        "TRET",
+        "FRET",
+        "FREE"
+      ]
+    },
+    {
+      "id": "vers-army",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "VERS → ARMY",
+      "solution": [
+        "VERS",
+        "VEES",
+        "TEES",
+        "TRES",
+        "ARES",
+        "ARMS",
+        "ARMY"
+      ]
+    },
+    {
+      "id": "saps-ahem",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "SAPS → AHEM",
+      "solution": [
+        "SAPS",
+        "PAPS",
+        "PEPS",
+        "PEES",
+        "TEES",
+        "TEEM",
+        "THEM",
+        "AHEM"
+      ]
+    },
+    {
+      "id": "ting-exec",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "TING → EXEC",
+      "solution": [
+        "TING",
+        "DING",
+        "DINS",
+        "DIES",
+        "DYES",
+        "EYES",
+        "EXES",
+        "EXEC"
+      ]
+    },
+    {
+      "id": "kent-thud",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "KENT → THUD",
+      "solution": [
+        "KENT",
+        "TENT",
+        "TEAT",
+        "THAT",
+        "THAN",
+        "THIN",
+        "THIS",
+        "THUS",
+        "THUD"
+      ]
+    },
+    {
+      "id": "oink-orca",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "OINK → ORCA",
+      "solution": [
+        "OINK",
+        "FINK",
+        "FINS",
+        "FANS",
+        "FATS",
+        "OATS",
+        "ORTS",
+        "ORCS",
+        "ORCA"
+      ]
+    },
+    {
+      "id": "gets-knob",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "GETS → KNOB",
+      "solution": [
+        "GETS",
+        "GEES",
+        "SEES",
+        "SHES",
+        "SHEW",
+        "SHOW",
+        "SNOW",
+        "KNOW",
+        "KNOB"
+      ]
+    },
+    {
+      "id": "bate-anon",
+      "locale": "english",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "BATE → ANON",
+      "solution": [
+        "BATE",
+        "BARE",
+        "BARN",
+        "BORN",
+        "BOON",
+        "NOON",
+        "NEON",
+        "AEON",
+        "ANON"
+      ]
+    },
+    {
+      "id": "savor-lever",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 3,
+      "subtitle": "SAVOR → LEVER",
+      "solution": [
+        "SAVOR",
+        "SAVER",
+        "LAVER",
+        "LEVER"
+      ]
+    },
+    {
+      "id": "toked-fixed",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "TOKED → FIXED",
+      "solution": [
+        "TOKED",
+        "COKED",
+        "COXED",
+        "FOXED",
+        "FIXED"
+      ]
+    },
+    {
+      "id": "hooks-curds",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "HOOKS → CURDS",
+      "solution": [
+        "HOOKS",
+        "COOKS",
+        "CORKS",
+        "CORDS",
+        "CURDS"
+      ]
+    },
+    {
+      "id": "chute-shier",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 5,
+      "subtitle": "CHUTE → SHIER",
+      "solution": [
+        "CHUTE",
+        "SHUTE",
+        "SHUTS",
+        "SHITS",
+        "SHIES",
+        "SHIER"
+      ]
+    },
+    {
+      "id": "cream-shier",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "CREAM → SHIER",
+      "solution": [
+        "CREAM",
+        "CREAK",
+        "CREEK",
+        "CHEEK",
+        "CHEER",
+        "SHEER",
+        "SHIER"
+      ]
+    },
+    {
+      "id": "troop-tsars",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "TROOP → TSARS",
+      "solution": [
+        "TROOP",
+        "TROMP",
+        "TRAMP",
+        "TRAMS",
+        "TEAMS",
+        "TEARS",
+        "TSARS"
+      ]
+    },
+    {
+      "id": "kikes-heath",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "KIKES → HEATH",
+      "solution": [
+        "KIKES",
+        "HIKES",
+        "HIRES",
+        "HERES",
+        "HERDS",
+        "HEADS",
+        "HEATS",
+        "HEATH"
+      ]
+    },
+    {
+      "id": "scant-shyer",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "SCANT → SHYER",
+      "solution": [
+        "SCANT",
+        "SCANS",
+        "SCAMS",
+        "SHAMS",
+        "SHIMS",
+        "SHIES",
+        "SHIER",
+        "SHYER"
+      ]
+    },
+    {
+      "id": "towel-whops",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "TOWEL → WHOPS",
+      "solution": [
+        "TOWEL",
+        "TOWED",
+        "COWED",
+        "CORED",
+        "CORES",
+        "CORPS",
+        "COOPS",
+        "CHOPS",
+        "WHOPS"
+      ]
+    },
+    {
+      "id": "moods-stomp",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "MOODS → STOMP",
+      "solution": [
+        "MOODS",
+        "MOOTS",
+        "SOOTS",
+        "SLOTS",
+        "SLUTS",
+        "SLUMS",
+        "SLUMP",
+        "STUMP",
+        "STOMP"
+      ]
+    },
+    {
+      "id": "krill-brays",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "KRILL → BRAYS",
+      "solution": [
+        "KRILL",
+        "TRILL",
+        "TRIAL",
+        "TRIAD",
+        "TRIED",
+        "TRIES",
+        "BRIES",
+        "BRAES",
+        "BRAYS"
+      ]
+    },
+    {
+      "id": "felts-drone",
+      "locale": "english",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "FELTS → DRONE",
+      "solution": [
+        "FELTS",
+        "FEATS",
+        "FRATS",
+        "PRATS",
+        "PRATE",
+        "CRATE",
+        "CRANE",
+        "CRONE",
+        "DRONE"
+      ]
+    },
+    {
+      "id": "puzi-piša",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 3,
+      "subtitle": "PUZI → PIŠA",
+      "solution": [
+        "PUZI",
+        "PUŠI",
+        "PIŠI",
+        "PIŠA"
+      ]
+    },
+    {
+      "id": "dade-liže",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "DADE → LIŽE",
+      "solution": [
+        "DADE",
+        "DAJE",
+        "LAJE",
+        "LAŽE",
+        "LIŽE"
+      ]
+    },
+    {
+      "id": "kaži-daju",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "KAŽI → DAJU",
+      "solution": [
+        "KAŽI",
+        "KAŽU",
+        "LAŽU",
+        "LAJU",
+        "DAJU"
+      ]
+    },
+    {
+      "id": "muči-diši",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "easy",
+      "bfsEdges": 5,
+      "subtitle": "MUČI → DIŠI",
+      "solution": [
+        "MUČI",
+        "LUČI",
+        "LIČI",
+        "LIŽI",
+        "DIŽI",
+        "DIŠI"
+      ]
+    },
+    {
+      "id": "fora-liga",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "FORA → LIGA",
+      "solution": [
+        "FORA",
+        "GORA",
+        "GURA",
+        "BURA",
+        "BIRA",
+        "LIRA",
+        "LIGA"
+      ]
+    },
+    {
+      "id": "urar-očaj",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "URAR → OČAJ",
+      "solution": [
+        "URAR",
+        "UDAR",
+        "ODAR",
+        "ODAN",
+        "OVAN",
+        "OVAJ",
+        "OČAJ"
+      ]
+    },
+    {
+      "id": "vadi-šuma",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "VADI → ŠUMA",
+      "solution": [
+        "VADI",
+        "GADI",
+        "GRDI",
+        "GRDA",
+        "GRBA",
+        "GUBA",
+        "GUMA",
+        "ŠUMA"
+      ]
+    },
+    {
+      "id": "gala-maže",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "GALA → MAŽE",
+      "solution": [
+        "GALA",
+        "GACA",
+        "KACA",
+        "KANA",
+        "KANU",
+        "KAŽU",
+        "KAŽE",
+        "MAŽE"
+      ]
+    },
+    {
+      "id": "krug-jama",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "KRUG → JAMA",
+      "solution": [
+        "KRUG",
+        "KRUT",
+        "KRST",
+        "KOST",
+        "MOST",
+        "MAST",
+        "MASA",
+        "MAMA",
+        "JAMA"
+      ]
+    },
+    {
+      "id": "koka-tuži",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "KOKA → TUŽI",
+      "solution": [
+        "KOKA",
+        "KOLA",
+        "KILA",
+        "KIŠA",
+        "PIŠA",
+        "PIŠI",
+        "PUŠI",
+        "PUŽI",
+        "TUŽI"
+      ]
+    },
+    {
+      "id": "srna-sadi",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "SRNA → SADI",
+      "solution": [
+        "SRNA",
+        "URNA",
+        "URMA",
+        "DRMA",
+        "DAMA",
+        "DALA",
+        "SALA",
+        "SADA",
+        "SADI"
+      ]
+    },
+    {
+      "id": "čađa-mrak",
+      "locale": "croatian",
+      "wordLength": 4,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "ČAĐA → MRAK",
+      "solution": [
+        "ČAĐA",
+        "ČASA",
+        "ČAST",
+        "PAST",
+        "PRST",
+        "PRAT",
+        "BRAT",
+        "BRAK",
+        "MRAK"
+      ]
+    },
+    {
+      "id": "gleda-krema",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 3,
+      "subtitle": "GLEDA → KREMA",
+      "solution": [
+        "GLEDA",
+        "GREDA",
+        "KREDA",
+        "KREMA"
+      ]
+    },
+    {
+      "id": "perec-badem",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "PEREC → BADEM",
+      "solution": [
+        "PEREC",
+        "PEREM",
+        "BEREM",
+        "BAREM",
+        "BADEM"
+      ]
+    },
+    {
+      "id": "šetaš-tetak",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 4,
+      "subtitle": "ŠETAŠ → TETAK",
+      "solution": [
+        "ŠETAŠ",
+        "ŠETAČ",
+        "LETAČ",
+        "LETAK",
+        "TETAK"
+      ]
+    },
+    {
+      "id": "služi-sjaju",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "easy",
+      "bfsEdges": 5,
+      "subtitle": "SLUŽI → SJAJU",
+      "solution": [
+        "SLUŽI",
+        "SLUTI",
+        "SLATI",
+        "SJATI",
+        "SJAJI",
+        "SJAJU"
+      ]
+    },
+    {
+      "id": "prođi-poeta",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "PROĐI → POETA",
+      "solution": [
+        "PROĐI",
+        "PRIĐI",
+        "PRIMI",
+        "PRIMA",
+        "PREMA",
+        "POEMA",
+        "POETA"
+      ]
+    },
+    {
+      "id": "ubili-plima",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 6,
+      "subtitle": "UBILI → PLIMA",
+      "solution": [
+        "UBILI",
+        "UBILA",
+        "ULILA",
+        "ULICA",
+        "KLICA",
+        "KLIMA",
+        "PLIMA"
+      ]
+    },
+    {
+      "id": "torba-runda",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "TORBA → RUNDA",
+      "solution": [
+        "TORBA",
+        "BORBA",
+        "BARBA",
+        "BARKA",
+        "BANKA",
+        "BANDA",
+        "BUNDA",
+        "RUNDA"
+      ]
+    },
+    {
+      "id": "uzela-glava",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "medium",
+      "bfsEdges": 7,
+      "subtitle": "UZELA → GLAVA",
+      "solution": [
+        "UZELA",
+        "UVELA",
+        "UVALA",
+        "UPALA",
+        "SPALA",
+        "SLALA",
+        "SLAVA",
+        "GLAVA"
+      ]
+    },
+    {
+      "id": "spaja-iseli",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "SPAJA → ISELI",
+      "solution": [
+        "SPAJA",
+        "SPALA",
+        "UPALA",
+        "UVALA",
+        "UVELA",
+        "UZELA",
+        "UZELI",
+        "USELI",
+        "ISELI"
+      ]
+    },
+    {
+      "id": "ušica-krčma",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "UŠICA → KRČMA",
+      "solution": [
+        "UŠICA",
+        "ULICA",
+        "KLICA",
+        "KLIMA",
+        "PLIMA",
+        "PRIMA",
+        "PREMA",
+        "KREMA",
+        "KRČMA"
+      ]
+    },
+    {
+      "id": "cvala-isuši",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "CVALA → ISUŠI",
+      "solution": [
+        "CVALA",
+        "UVALA",
+        "UVELA",
+        "UZELA",
+        "UZELI",
+        "USELI",
+        "ISELI",
+        "ISULI",
+        "ISUŠI"
+      ]
+    },
+    {
+      "id": "žrtva-okiti",
+      "locale": "croatian",
+      "wordLength": 5,
+      "difficulty": "hard",
+      "bfsEdges": 8,
+      "subtitle": "ŽRTVA → OKITI",
+      "solution": [
+        "ŽRTVA",
+        "BRTVA",
+        "BRAVA",
+        "BRALA",
+        "BRALI",
+        "BRATI",
+        "ORATI",
+        "ORITI",
+        "OKITI"
+      ]
+    }
+  ]
+}
