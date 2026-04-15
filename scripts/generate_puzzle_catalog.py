@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Generate data/puzzles/catalog.json from strict-largest island word lists.
+Generate data/puzzles/catalog.json for the web game.
 
-Graph: vertices = words in the island file; edges = one-letter substitutions
-staying in the vocabulary. Solutions are one BFS shortest path (lexicographic
-tie-break on the first branch).
+Endpoints (start/target): must appear in *strict_largest* island files.
+BFS / shortest path: computed on the full *largest* island (non-strict vocabulary);
+intermediate steps may be non-strict words.
 
-Difficulty buckets (BFS edge count = len(path) - 1):
+Solutions are one BFS shortest path on the largest graph (lexicographic tie-break on
+neighbor expansion).
+
+Difficulty buckets (BFS edge count on largest graph = len(path) - 1):
   easy:   3–5 edges (four puzzles: distances 3,4,4,5)
   medium: 6–7 edges (four puzzles: 6,6,7,7)
   hard:   8 edges (four puzzles)
+
+Croatian puzzle ids are URL-safe: č→c1, ć→c2, đ→d1, ž→z1, š→s1 (ASCII only).
 """
 
 from __future__ import annotations
@@ -25,11 +30,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 ISLANDS = REPO_ROOT / "data" / "islands"
 DEFAULT_OUT = REPO_ROOT / "data" / "puzzles" / "catalog.json"
 
+# (locale, word_length, strict_endpoints_path, largest_graph_path)
 CONFIGS = [
-    ("english", 4, ISLANDS / "english_4_strict_largest_island.txt"),
-    ("english", 5, ISLANDS / "english_5_strict_largest_island.txt"),
-    ("croatian", 4, ISLANDS / "croatian_4_strict_largest_island.txt"),
-    ("croatian", 5, ISLANDS / "croatian_5_strict_largest_island.txt"),
+    ("english", 4, ISLANDS / "english_4_strict_largest_island.txt", ISLANDS / "english_4_largest_island.txt"),
+    ("english", 5, ISLANDS / "english_5_strict_largest_island.txt", ISLANDS / "english_5_largest_island.txt"),
+    ("croatian", 4, ISLANDS / "croatian_4_strict_largest_island.txt", ISLANDS / "croatian_4_largest_island.txt"),
+    ("croatian", 5, ISLANDS / "croatian_5_strict_largest_island.txt", ISLANDS / "croatian_5_largest_island.txt"),
 ]
 
 DISTANCE_PLAN = {
@@ -109,26 +115,67 @@ def nodes_at_distance(start: str, words: set[str], chars: list[str], d: int) -> 
     return sorted(w for w, k in dist.items() if k == d)
 
 
+def slug_word_for_url(word: str, locale: str) -> str:
+    """ASCII slug for puzzle id; Croatian diacritics → c1,c2,d1,z1,s1."""
+    w = word.lower()
+    if locale != "croatian":
+        return w
+    parts: list[str] = []
+    for ch in w:
+        if ch == "č":
+            parts.append("c1")
+        elif ch == "ć":
+            parts.append("c2")
+        elif ch == "đ":
+            parts.append("d1")
+        elif ch == "ž":
+            parts.append("z1")
+        elif ch == "š":
+            parts.append("s1")
+        else:
+            parts.append(ch)
+    return "".join(parts)
+
+
+def puzzle_id(start: str, target: str, locale: str, used_ids: set[str]) -> str:
+    base = f"{slug_word_for_url(start, locale)}-{slug_word_for_url(target, locale)}"
+    if base not in used_ids:
+        used_ids.add(base)
+        return base
+    n = 2
+    while True:
+        cand = f"{base}-{n}"
+        if cand not in used_ids:
+            used_ids.add(cand)
+            return cand
+        n += 1
+
+
 def pick_pair_at_distance(
-    words: set[str],
-    chars: list[str],
+    graph_words: set[str],
+    graph_chars: list[str],
+    strict_endpoints: set[str],
     d: int,
     used: set[tuple[str, str]],
     rng: random.Random,
 ) -> tuple[str, str, list[str]] | None:
-    """Return (start, target, path) or None."""
-    candidates_starts = list(words)
+    """Start and target in strict_endpoints ∩ graph_words; shortest path on graph_words."""
+    endpoints = strict_endpoints & graph_words
+    if not endpoints:
+        return None
+    candidates_starts = list(endpoints)
     rng.shuffle(candidates_starts)
     for start in candidates_starts:
-        layer = nodes_at_distance(start, words, chars, d)
-        if not layer:
+        layer = nodes_at_distance(start, graph_words, graph_chars, d)
+        strict_targets = [t for t in layer if t in strict_endpoints]
+        if not strict_targets:
             continue
-        rng.shuffle(layer)
-        for target in layer:
+        rng.shuffle(strict_targets)
+        for target in strict_targets:
             a, b = (start, target), (target, start)
             if a in used or b in used:
                 continue
-            path = bfs_path(start, target, words, chars)
+            path = bfs_path(start, target, graph_words, graph_chars)
             if path is None:
                 continue
             if len(path) - 1 != d:
@@ -145,42 +192,33 @@ def subtitle(start: str, target: str) -> str:
     return f"{display_word(start)} → {display_word(target)}"
 
 
-def puzzle_id(start: str, target: str, used_ids: set[str]) -> str:
-    """Stable slug: firstword-lastword (lowercase, as in island files)."""
-    base = f"{start}-{target}"
-    if base not in used_ids:
-        used_ids.add(base)
-        return base
-    n = 2
-    while True:
-        cand = f"{base}-{n}"
-        if cand not in used_ids:
-            used_ids.add(cand)
-            return cand
-        n += 1
-
-
 def build_catalog(seed: int) -> dict:
     rng = random.Random(seed)
     puzzles: list[dict] = []
     used_ids: set[str] = set()
-    for locale, n_letters, island_path in CONFIGS:
-        if not island_path.is_file():
-            raise FileNotFoundError(island_path)
-        words = load_word_set(island_path)
-        chars = charset_for(words)
+    for locale, n_letters, strict_path, largest_path in CONFIGS:
+        if not strict_path.is_file():
+            raise FileNotFoundError(strict_path)
+        if not largest_path.is_file():
+            raise FileNotFoundError(largest_path)
+        strict_words = load_word_set(strict_path)
+        graph_words = load_word_set(largest_path)
+        graph_chars = charset_for(graph_words)
         used: set[tuple[str, str]] = set()
         for difficulty in ("easy", "medium", "hard"):
             for d in DISTANCE_PLAN[difficulty]:
-                found = pick_pair_at_distance(words, chars, d, used, rng)
+                found = pick_pair_at_distance(
+                    graph_words, graph_chars, strict_words, d, used, rng
+                )
                 if found is None:
                     raise RuntimeError(
-                        f"No pair at distance {d} for {island_path.name} ({locale} {n_letters}). "
-                        "Try a different seed or relax distances."
+                        f"No strict–strict pair at distance {d} on largest graph for "
+                        f"{largest_path.name} (endpoints from {strict_path.name}, "
+                        f"{locale} {n_letters}). Try a different --seed."
                     )
                 start, target, path = found
                 used.add((start, target))
-                pid = puzzle_id(start, target, used_ids)
+                pid = puzzle_id(start, target, locale, used_ids)
                 puzzles.append(
                     {
                         "id": pid,
