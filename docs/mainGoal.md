@@ -23,6 +23,7 @@ Build and compare neural solvers for the **Word Ladder** game (change one letter
 - LLM baseline evaluation (API calls with strict prompting)
 - Metrics on 100s–1000s test pairs: success rate, avg path length, rule adherence, speed
 - Simple web demo (Gradio / Streamlit): input start/target → see path + stats
+- BERT “hint” API: **`word-ladder-api/`** (FastAPI, Hugging Face Space) — per-step neighbor suggestion for the game; public URL pattern `https://<user>-<space>.hf.space` (see `docs/context.md`)
 - Thesis sections: related work, methodology, results, Croatian originality point
 
 ## Why BERT wins (thesis one-liner)
@@ -32,6 +33,7 @@ Fine-tuned BERT excels at precise single-letter neighborhood prediction due to b
 - data/raw/          ← original downloaded lists
 - data/processed/    ← cleaned & filtered .txt files (4/5 letters)
 - notebooks/         ← Jupyter notebooks (e.g. 01_word_lists_combine.ipynb)
+- word-ladder-api/  ← FastAPI BERT hint service (Docker) for the web app; can be split to its own git repo
 - src/               ← future .py modules (graph.py, solver.py, bert_finetune.py)
 - requirements.txt
 

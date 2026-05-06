@@ -130,6 +130,8 @@ stone,heart,7
 
 Path generation: beam search picks neighbors with lowest predicted distance at each step. Falls back to BFS if beam search fails.
 
+**Deployed HTTP API:** a FastAPI + Docker service in **`word-ladder-api/`** exposes the same neighbor scoring as `POST /predict` (modes `en_4`, `en_5`, `hr_4`, `hr_5`). **Public base URL (example):** `https://ldoric-word-ladder-api.hf.space` — use the **`.hf.space`** host for HTTP clients, not `huggingface.co/spaces/.../path` (see `docs/context.md` § BERT hint API). Full deploy notes: `word-ladder-api/README.md`. **Smoke test** all four Hub-backed models: `notebooks/15_model_api_test.ipynb`.
+
 ### Output
 
 - **Trained model (English 5-letter):** `models/bert_wordladder_5letter/` (model + tokenizer)

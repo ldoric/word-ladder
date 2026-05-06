@@ -59,7 +59,33 @@ This file is a working memory reference for agents operating on this repo.
 - BERT training data (Croatian 5-letter): notebooks/09_croatian_5_letter_training.ipynb (distance regression CSVs: wordladder_croatian5_*.csv)
 - BERT training data (Croatian 4-letter): notebooks/11_croatian_4_letter_training.ipynb (distance regression CSVs: wordladder_croatian4_*.csv)
 - LLM vs BERT benchmark: notebooks/13_llm_vs_bert_wordladder.ipynb — set `GRAPH_PRESET`, `GPT_MODEL`, optional Gemini; `EVAL_SET_NAME=None` auto-picks `data/eval_sets/<name>.csv` per preset (`english_4` → `test4english`, etc.) and creates it if missing; API keys in `.env.local` — see docs/colab-setup.md
+- Deployed hint API smoke test (four `POST /predict`): notebooks/15_model_api_test.ipynb (`WORD_LADDER_API_BASE` optional; default `https://ldoric-word-ladder-api.hf.space`)
 - LLM comparison log (benchmark results): docs/comparing-to-llms.md
+
+## BERT hint API (Hugging Face Space)
+
+Production **FastAPI** service for “next step” hints: scores one-letter neighbors with the same distance-regression BERT as `scripts/play_wordladder.py` (`score_candidates`). Code and Docker layout: **`word-ladder-api/`** (see `word-ladder-api/README.md` for deploy, env vars, GitHub vs Hub).
+
+### URLs (important)
+
+- **Call the API on the direct host:** `https://<username>-<spacename>.hf.space`  
+  Example (current): **`https://ldoric-word-ladder-api.hf.space`** — endpoints: `GET /`, `GET /health`, `GET /docs`, `POST /predict`.
+- **Do not** use `https://huggingface.co/spaces/<user>/<spacename>/...` as the HTTP base for `/health` or `/predict` — that site is the Space *page*; path routing often returns **404** for API routes. The running app is on **`.hf.space`**.
+
+**Space (git) repo:** `https://huggingface.co/spaces/ldoric/word-ladder-api` (push with HF token, not account password).
+
+### Runtime configuration (on the Space)
+
+- **Model repo ids (Variables):** `HF_HUB_EN_4`, `HF_HUB_EN_5`, `HF_HUB_HR_4`, `HF_HUB_HR_5` = Hub model id per mode (e.g. `ldoric/bert-wl-en5` for `en_5`).
+- **Private models (Secrets):** `HUGGING_FACE_HUB_TOKEN` or `HF_TOKEN` (read) so `download_models_from_hub.py` can pull weights at container start.
+- **Optional:** `PRELOAD_ALL_MODELS=1` to load all four BERTs at startup (needs RAM).
+- **All four modes** (`en_4`, `en_5`, `hr_4`, `hr_5`) are live once each `HF_HUB_*` points at a Hub model with weights (private repos need the token secret). Smoke test: **`notebooks/15_model_api_test.ipynb`** (one `POST /predict` per mode).
+
+### `POST /predict` contract
+
+- **Body (JSON):** `current`, `target`, `mode` ∈ `en_4` | `en_5` | `hr_4` | `hr_5`, optional `full_ranking`.
+- **Response:** `best_neighbor`, `predicted_distance` (lower = better distance estimate to `target`); 400 if words missing from the API’s word list.
+- **Word lists** inside the service mirror **`data/islands/*_largest_island.txt`** (copies under `word-ladder-api/data/words_*.txt`).
 
 ## Caveats
 - Counts can change if source files are updated upstream.
